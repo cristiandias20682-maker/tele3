@@ -17,8 +17,10 @@
         .desktop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; margin-top: 100px; width: 85%; }
         .app { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
         .app:hover { transform: scale(1.15); }
-        .icon-official { width: 90px; height: 90px; background-size: cover; border-radius: 22px; 
-                         box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); }
+        
+        /* Icono con las URLs que pasaste */
+        .icon-img { width: 90px; height: 90px; background-size: cover; background-position: center; 
+                    border-radius: 22px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); }
         .label { color: white; margin-top: 10px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
         /* Dock Liquid Glass */
@@ -35,32 +37,18 @@
 
     <div class="desktop">
         <div class="app" onclick="window.open('https://www.youtube.com', '_blank')">
-            <div class="icon-official" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');"></div>
+            <div class="icon-img" style="background-image: url('https://e7.pngegg.com/pngimages/125/937/png-clipart-youtube-logo-youtube-angle-logo.png');"></div>
             <div class="label">YouTube</div>
         </div>
-        <div class="app" onclick="window.open('https://www.icloud.com', '_blank')">
-            <div class="icon-official" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');"></div>
-            <div class="label">Mail</div>
-        </div>
         <div class="app" onclick="window.open('https://www.icloud.com/photos', '_blank')">
-            <div class="icon-official" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');"></div>
+            <div class="icon-img" style="background-image: url('https://img.icons8.com/color/1200/ios-photos.jpg');"></div>
             <div class="label">Fotos</div>
-        </div>
-        <div class="app" onclick="window.open('https://keep.google.com', '_blank')">
-            <div class="icon-official" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/87/Notes_iOS_icon.svg');"></div>
-            <div class="label">Notas</div>
-        </div>
-        <div class="app" onclick="window.open('https://www.apple.com/app-store/', '_blank')">
-            <div class="icon-official" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_iOS_11.svg');"></div>
-            <div class="label">App Store</div>
         </div>
     </div>
 
     <div class="dock">
         <div class="dock-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/Messages_icon.svg');" onclick="window.open('https://messages.google.com', '_blank')"></div>
         <div class="dock-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/ad/Safari_icon.svg');" onclick="window.open('https://www.google.com', '_blank')"></div>
-        <div class="dock-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/1/19/Music_app_icon.svg');" onclick="window.open('https://music.apple.com', '_blank')"></div>
-        <div class="dock-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/67/IOS_Settings_icon.svg');" onclick="window.open('https://www.apple.com', '_blank')"></div>
     </div>
 
 </body>
