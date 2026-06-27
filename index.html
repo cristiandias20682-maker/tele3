@@ -21,7 +21,6 @@
         }
 
         .app-grid { display: flex; gap: 20px; margin-top: 30px; }
-        /* Añadido cursor pointer para que se note que son clicables */
         .app-icon { width: 70px; height: 70px; background-size: cover; border-radius: 18px; cursor: pointer; transition: 0.2s; }
         .app-icon:hover { transform: scale(1.1); }
 
@@ -34,17 +33,20 @@
 </head>
 <body>
 
-    <div class="time-container" id="clock">02:51 p. m.</div>
+    <div class="time-container" id="clock">02:54 p. m.</div>
 
-    <!-- Apps funcionales -->
+    <!-- Apps principales -->
     <div class="app-grid">
         <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');" onclick="window.open('https://youtube.com', '_blank')"></div>
         <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');" onclick="window.open('https://mail.google.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8TCZwCFV_XrLwzIPhScY5x-j7ymq7HxL5mg&s');" onclick="window.open('https://photos.google.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');" onclick="window.open('https://apps.apple.com', '_blank')"></div>
     </div>
 
-    <!-- Dock funcional -->
+    <!-- Dock con las apps adicionales -->
     <div class="dock">
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');" onclick="window.open('https://apps.apple.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-itunes-store-icon-svg-download-png-493149.png');" onclick="window.open('https://music.apple.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf9g_m5t3k--Z3Ijq56apjT-NYCbQmlfyKg&s');" onclick="window.open('https://icloud.com', '_blank')"></div>
     </div>
 
     <script>
