@@ -2,64 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>iPadOS Interface</title>
     <style>
-        /* Estilos base */
-        body { margin: 0; background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e') center/cover; height: 100vh; overflow: hidden; font-family: sans-serif; }
-        
-        /* Dock - Efecto Liquid Glass */
+        body { 
+            margin: 0; 
+            /* Fondo solicitado */
+            background: url('6d57f2020f35b0201df21df7ffd2a4e7.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-end;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+        }
+
+        /* Dock Liquid Glass */
         .dock {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            padding: 15px; border-radius: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex; gap: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 32px;
+            padding: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
-        .icon { width: 60px; height: 60px; background: #eee; border-radius: 14px; cursor: pointer; transition: 0.3s; }
-        .icon:hover { transform: translateY(-10px); }
-
-        /* Ventanas */
-        .window {
-            position: absolute; top: 100px; left: 100px; width: 400px; height: 300px;
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
-            border-radius: 15px; border: 1px solid rgba(0,0,0,0.1);
-            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
-        .header { padding: 10px; background: rgba(0,0,0,0.05); cursor: move; border-radius: 15px 15px 0 0; }
+        .icon:hover { transform: translateY(-8px); }
     </style>
 </head>
 <body>
 
-<div class="dock">
-    <div class="icon" onclick="createWindow('Safari')">🌐</div>
-    <div class="icon" onclick="createWindow('Fotos')">🖼️</div>
-    <div class="icon" onclick="createWindow('Musica')">🎵</div>
-</div>
+    <div class="dock">
+        <!-- Aquí insertarás tus iconos (img src="...") -->
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+    </div>
 
-<script>
-    // Lógica para crear ventanas arrastrables
-    function createWindow(title) {
-        const win = document.createElement('div');
-        win.className = 'window';
-        win.innerHTML = `<div class="header" onmousedown="drag(this.parentElement)">${title} <button onclick="this.parentElement.parentElement.remove()">X</button></div>
-                         <div style="padding:20px;">Contenido de ${title} funcionando.</div>`;
-        document.body.appendChild(win);
-    }
-
-    function drag(elm) {
-        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        elm.onmousedown = (e) => {
-            pos3 = e.clientX; pos4 = e.clientY;
-            document.onmousemove = (e) => {
-                pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
-                pos3 = e.clientX; pos4 = e.clientY;
-                elm.style.top = (elm.offsetTop - pos2) + "px";
-                elm.style.left = (elm.offsetLeft - pos1) + "px";
-            };
-            document.onmouseup = () => { document.onmousemove = null; };
-        };
-    }
-</script>
 </body>
 </html>
