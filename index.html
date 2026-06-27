@@ -4,70 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { 
-            margin: 0; 
-            background: #000; 
-            font-family: -apple-system, sans-serif; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+        body { margin: 0; background: url('https://i.imgur.com/your-wallpaper.jpg') center/cover; height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Dock Inferior (Liquid Glass) */
+        #dock {
+            margin-top: auto; width: 80%; height: 90px;
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px);
+            border-radius: 30px; display: flex; justify-content: space-around; align-items: center;
+            margin-bottom: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* La Isla Dinámica */
-        #dynamic-island {
-            margin-top: 20px;
-            padding: 10px 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 50px;
-            color: white;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Contenedor que ocupa toda la pantalla para centrar el grid */
-        #app-grid {
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px; 
-            padding: 50px; 
-            width: 100%;
-            max-width: 600px;
-            margin-top: 50px;
-        }
-
-        .app-icon {
-            width: 80px; 
-            height: 80px; 
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 22px;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            color: white; 
-            font-weight: 500; 
-            font-size: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.2s;
-        }
+        /* Widgets y Grid */
+        #main-area { display: flex; flex-direction: column; padding: 20px; }
+        .widget { background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(20px); border-radius: 20px; padding: 20px; width: 300px; }
+        
+        .icon { width: 60px; height: 60px; background: #fff; border-radius: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="dynamic-island">Conectado</div>
-
-    <div id="app-grid">
-        <div class="app-icon">YT</div>
-        <div class="app-icon">MSG</div>
-        <div class="app-icon">MAP</div>
-        <div class="app-icon">SET</div>
-        <div class="app-icon">CAM</div>
-        <div class="app-icon">MUS</div>
-        <div class="app-icon">GAL</div>
-        <div class="app-icon">CAL</div>
+    <div id="main-area">
+        <div class="widget">Widgets (Clima, Calendario)</div>
     </div>
 
+    <div id="dock">
+        <div class="icon" onclick="openApp('Safari')">Safari</div>
+        <div class="icon" onclick="openApp('Musica')">Musica</div>
+        <div class="icon" onclick="openApp('Settings')">Settings</div>
+    </div>
+
+    <script>
+        function openApp(name) {
+            alert("Abriendo " + name + "...");
+            // Aquí añadiremos la lógica para cambiar el contenido de la pantalla
+        }
+    </script>
 </body>
 </html>
