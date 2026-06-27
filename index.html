@@ -2,53 +2,53 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Interface</title>
     <style>
-        body { 
+        /* Forzamos que la página ocupe toda la pantalla y el fondo sea el correcto */
+        body, html { 
             margin: 0; 
-            /* Fondo solicitado */
-            background: url('6d57f2020f35b0201df21df7ffd2a4e7.jpg') no-repeat center center fixed; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden;
+            background-image: url('6d57f2020f35b0201df21df7ffd2a4e7.jpg');
             background-size: cover;
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-end;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        /* Dock Liquid Glass */
-        .dock {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(40px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 32px;
+        /* Contenedor del Dock - centrado y con el estilo de vidrio */
+        .dock-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 12px;
-            margin-bottom: 24px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             gap: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .icon {
+        /* Espacio para los iconos */
+        .app-icon {
             width: 64px;
             height: 64px;
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
         }
-        .icon:hover { transform: translateY(-8px); }
     </style>
 </head>
 <body>
 
-    <div class="dock">
-        <!-- Aquí insertarás tus iconos (img src="...") -->
-        <div class="icon"></div>
-        <div class="icon"></div>
-        <div class="icon"></div>
-        <div class="icon"></div>
+    <div class="dock-container">
+        <!-- Reemplaza los divs por tus etiquetas <img> cuando tengas los iconos -->
+        <div class="app-icon"></div>
+        <div class="app-icon"></div>
+        <div class="app-icon"></div>
+        <div class="app-icon"></div>
     </div>
 
 </body>
