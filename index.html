@@ -2,25 +2,31 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Liquid Glass Pro</title>
+    <title>iPadOS Liquid Glass</title>
     <style>
-        :root { --glass: rgba(255, 255, 255, 0.15); --blur: blur(25px); }
-        body { margin: 0; height: 100vh; background: linear-gradient(135deg, #007AFF, #5AC8FA); 
-               display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-family: sans-serif; }
+        body { margin: 0; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #007AFF, #5AC8FA); 
+               display: flex; flex-direction: column; align-items: center; justify-content: space-between; font-family: -apple-system, sans-serif; }
 
         /* Isla Dinámica */
-        #island { width: 150px; height: 40px; background: black; border-radius: 25px; margin-top: 15px; 
+        #island { width: 180px; height: 45px; background: black; border-radius: 30px; margin-top: 15px; 
                   display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: 0.5s; }
-        #island:hover { width: 300px; height: 100px; border-radius: 40px; }
+        #island:hover { width: 350px; height: 120px; border-radius: 40px; }
 
-        /* Iconos SVG (Ruta configurada) */
-        .icon { width: 85px; height: 85px; background-repeat: no-repeat; background-size: contain; cursor: pointer; transition: 0.3s; }
-        .icon:hover { transform: scale(1.15); }
+        /* Estilo Liquid Glass para Iconos */
+        .desktop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; width: 85%; margin-top: 50px; }
+        .app { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
+        .app:hover { transform: scale(1.15); }
         
-        .desktop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px; width: 80%; }
-        
-        .dock { background: var(--glass); backdrop-filter: var(--blur); padding: 20px 40px; border-radius: 40px; 
-                margin-bottom: 30px; display: flex; gap: 30px; border: 1px solid rgba(255,255,255,0.2); }
+        .glass-icon { width: 90px; height: 90px; background-size: cover; background-position: center; 
+                      border-radius: 25px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3);
+                      box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+                      
+        .label { color: white; margin-top: 10px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+
+        /* Dock Liquid Glass */
+        .dock { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(25px); padding: 15px 30px; border-radius: 40px; 
+                margin-bottom: 30px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.3); }
+        .dock-icon { width: 70px; height: 70px; background-size: cover; border-radius: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -28,15 +34,19 @@
     <div id="island">iPadOS Pro</div>
 
     <div class="desktop">
-        <div class="icon" style="background-image: url('iconos/youtube.svg');" onclick="window.open('https://youtube.com', '_blank')"></div>
-        <div class="icon" style="background-image: url('iconos/fotos.svg');" onclick="window.open('https://photos.google.com', '_blank')"></div>
-        <div class="icon" style="background-image: url('iconos/mail.svg');" onclick="window.open('https://icloud.com', '_blank')"></div>
+        <div class="app" onclick="window.open('https://youtube.com', '_blank')">
+            <div class="glass-icon" style="background-image: url('iconos/youtube.svg');"></div>
+            <div class="label">YouTube</div>
+        </div>
+        <div class="app" onclick="window.open('https://photos.google.com', '_blank')">
+            <div class="glass-icon" style="background-image: url('iconos/fotos.svg');"></div>
+            <div class="label">Fotos</div>
+        </div>
     </div>
 
     <div class="dock">
-        <div class="icon" style="background-image: url('iconos/safari.svg');"></div>
-        <div class="icon" style="background-image: url('iconos/music.svg');"></div>
-        <div class="icon" style="background-image: url('iconos/settings.svg');"></div>
+        <div class="dock-icon" style="background-image: url('iconos/safari.svg');"></div>
+        <div class="dock-icon" style="background-image: url('iconos/music.svg');"></div>
     </div>
 
 </body>
