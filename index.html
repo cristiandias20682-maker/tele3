@@ -3,15 +3,44 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #000; display: flex; justify-content: center; align-items: flex-end; height: 90vh; }
-        .dock { background: #333; padding: 10px; border-radius: 20px; display: flex; gap: 10px; }
-        .app { width: 50px; height: 50px; background: #555; border-radius: 10px; }
+        body { 
+            margin: 0; 
+            background: url('fondo.jpg') no-repeat center center fixed; 
+            background-size: cover; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            font-family: sans-serif; 
+        }
+        .dock { 
+            background: rgba(0, 0, 0, 0.5); 
+            padding: 15px; 
+            border-radius: 20px; 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 20px; 
+        }
+        .app { 
+            width: 50px; 
+            height: 50px; 
+            background: #fff; 
+            border-radius: 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            text-decoration: none; 
+            color: #000; 
+            font-weight: bold; 
+            font-size: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="dock">
-        <a href="https://m.youtube.com"><div class="app"></div></a>
-        <a href="https://web.whatsapp.com"><div class="app"></div></a>
+        <a href="https://m.youtube.com" class="app">YT</a>
+        <a href="https://www.tiktok.com" class="app">TT</a>
+        <a href="https://www.google.com" class="app">WEB</a>
     </div>
 </body>
 </html>
