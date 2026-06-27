@@ -2,69 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPadOS 26 - Build 26.0.0.1</title>
     <style>
-        /* [BLOQUE DE ESTILOS - COMPLEJIDAD ALTA] */
-        * { box-sizing: border-box; }
-        body { margin:0; background: #000; overflow: hidden; font-family: -apple-system, sans-serif; user-select: none; }
-        #os-root { width: 100vw; height: 100vh; position: relative; background: linear-gradient(to bottom, #111, #000); }
+        /* Estilos base */
+        body { margin: 0; background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e') center/cover; height: 100vh; overflow: hidden; font-family: sans-serif; }
         
-        /* Sistema de Cuadrícula de Apps */
-        #grid-container { display: grid; grid-template-columns: repeat(6, 1fr); padding: 60px; gap: 40px; }
-        .app-icon { width: 90px; height: 90px; background: rgba(255,255,255,0.05); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: 0.2s; }
-        .app-icon:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
-        
-        /* Ventanas de Aplicación (Gestor de Ventanas) */
-        .window-manager { position: absolute; top: 5%; left: 5%; width: 90%; height: 85%; background: #fff; border-radius: 30px; display: none; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.8); z-index: 999; }
-        .win-header { height: 50px; background: #f0f0f0; display: flex; align-items: center; padding: 0 20px; font-weight: bold; cursor: grab; }
-        
-        /* Dock */
-        #os-dock { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px; background: rgba(255,255,255,0.1); backdrop-filter: blur(40px); border-radius: 40px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.2); }
+        /* Dock - Efecto Liquid Glass */
+        .dock {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            padding: 15px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex; gap: 15px;
+        }
+
+        .icon { width: 60px; height: 60px; background: #eee; border-radius: 14px; cursor: pointer; transition: 0.3s; }
+        .icon:hover { transform: translateY(-10px); }
+
+        /* Ventanas */
+        .window {
+            position: absolute; top: 100px; left: 100px; width: 400px; height: 300px;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+            border-radius: 15px; border: 1px solid rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .header { padding: 10px; background: rgba(0,0,0,0.05); cursor: move; border-radius: 15px 15px 0 0; }
     </style>
 </head>
 <body>
 
-    <div id="os-root">
-        <div id="grid-container">
-            <div class="app-icon" onclick="openApp('https://www.youtube.com')">YT</div>
-            <div class="app-icon" onclick="openApp('https://www.google.com')">WEB</div>
-            <div class="app-icon" onclick="openApp('https://music.apple.com')">MUS</div>
-            <div class="app-icon" onclick="openApp('https://maps.apple.com')">MAP</div>
-        </div>
+<div class="dock">
+    <div class="icon" onclick="createWindow('Safari')">🌐</div>
+    <div class="icon" onclick="createWindow('Fotos')">🖼️</div>
+    <div class="icon" onclick="createWindow('Musica')">🎵</div>
+</div>
 
-        <div id="os-dock">
-            <div class="app-icon" style="width:70px; height:70px;">⚙️</div>
-        </div>
+<script>
+    // Lógica para crear ventanas arrastrables
+    function createWindow(title) {
+        const win = document.createElement('div');
+        win.className = 'window';
+        win.innerHTML = `<div class="header" onmousedown="drag(this.parentElement)">${title} <button onclick="this.parentElement.parentElement.remove()">X</button></div>
+                         <div style="padding:20px;">Contenido de ${title} funcionando.</div>`;
+        document.body.appendChild(win);
+    }
 
-        <div class="window-manager" id="win">
-            <div class="win-header" onclick="closeApp()">CERRAR VENTANA</div>
-            <iframe id="iframe-app" src="" style="width:100%; height:100%; border:none;"></iframe>
-        </div>
-    </div>
-
-    <script>
-        /* [BLOQUE DE LÓGICA - GESTOR DE ESTADO] */
-        const SystemState = {
-            activeWindow: null,
-            openApp: (url) => {
-                const win = document.getElementById('win');
-                document.getElementById('iframe-app').src = url;
-                win.style.display = 'block';
-                SystemState.activeWindow = true;
-            },
-            closeApp: () => {
-                document.getElementById('win').style.display = 'none';
-                SystemState.activeWindow = null;
-            }
+    function drag(elm) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        elm.onmousedown = (e) => {
+            pos3 = e.clientX; pos4 = e.clientY;
+            document.onmousemove = (e) => {
+                pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
+                elm.style.top = (elm.offsetTop - pos2) + "px";
+                elm.style.left = (elm.offsetLeft - pos1) + "px";
+            };
+            document.onmouseup = () => { document.onmousemove = null; };
         };
-
-        function openApp(url) { SystemState.openApp(url); }
-        function closeApp() { SystemState.closeApp(); }
-        
-        // Simulación de carga pesada
-        console.log("Kernel: Cargando módulos...");
-        setTimeout(() => console.log("Kernel: Sistema listo."), 2000);
-    </script>
+    }
+</script>
 </body>
 </html>
