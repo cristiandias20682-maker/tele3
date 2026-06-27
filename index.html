@@ -1,46 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPadOS Clone</title>
     <style>
-        body { 
-            margin: 0; padding: 0; height: 100vh;
-            background: #008080; /* Color base */
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex; justify-content: center; align-items: flex-end;
-        }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: sans-serif; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); overflow: hidden; }
+        
+        /* Contenedor principal */
+        .home-screen { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(4, 1fr); height: 85vh; padding: 20px; gap: 15px; }
 
-        /* Estilo del Dock exacto a iPadOS 26 */
-        .dock {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 20px;
-            border-radius: 30px;
-            margin-bottom: 25px;
-            display: flex; gap: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+        /* Widgets (Simulados) */
+        .widget { background: rgba(255, 255, 255, 0.7); border-radius: 20px; backdrop-filter: blur(10px); }
+        .span-2 { grid-column: span 2; }
+        
+        /* Iconos de Apps */
+        .app-icon { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
+        .icon-circle { width: 60px; height: 60px; background: white; border-radius: 15px; margin-bottom: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .app-icon:hover { transform: scale(1.1); }
 
-        .icon { width: 55px; height: 55px; transition: 0.3s; }
-        .icon:hover { transform: translateY(-10px); }
-        svg { width: 100%; height: 100%; fill: white; }
+        /* Dock inferior */
+        .dock { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); padding: 10px 20px; border-radius: 30px; display: flex; gap: 15px; }
+        .dock-item { width: 50px; height: 50px; background: white; border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <div class="dock">
-        <a href="https://google.com" class="icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09L9.75 7.75l8.34 3.66-3.66 3.66-1.02-2.98z"/></svg>
-        </a>
-        <a href="https://m.youtube.com" class="icon">
-            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com" class="icon">
-            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.77 0 2.89 2.89 0 0 1 2.89-2.89h.56V9.44h-.56A6.33 6.33 0 1 0 12 15.77V7.37a8.55 8.55 0 0 0 4.3 1.25V6.69z"/></svg>
-        </a>
+    <div class="home-screen">
+        <div class="widget span-2"></div>
+        <div class="widget span-2"></div>
+        <div class="widget span-2"></div>
+        
+        <div class="app-icon"><div class="icon-circle" style="background: #00ff00;"></div><span>FaceTime</span></div>
+        <div class="app-icon"><div class="icon-circle" style="background: #00aaff;"></div><span>Files</span></div>
     </div>
 
+    <div class="dock">
+        <div class="dock-item"></div>
+        <div class="dock-item"></div>
+        <div class="dock-item"></div>
+        <div class="dock-item" style="border-left: 1px solid #ccc; padding-left: 10px;"></div>
+    </div>
+
+    <script>
+        console.log("Interfaz iPadOS cargada. Puedes añadir lógica de arrastrar y soltar (Drag and Drop) aquí.");
+    </script>
 </body>
 </html>
