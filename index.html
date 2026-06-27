@@ -2,40 +2,52 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Clone</title>
+    <title>iPadOS 26 Desktop</title>
     <style>
-        body { margin: 0; font-family: sans-serif; background: linear-gradient(135deg, #007AFF, #5AC8FA); height: 100vh; display: flex; flex-direction: column; align-items: center; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 50px; }
-        .app { text-align: center; cursor: pointer; color: white; transition: 0.3s; }
-        .icon { width: 80px; height: 80px; background: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .modal { display: none; position: fixed; inset: 5%; background: white; border-radius: 30px; padding: 20px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* Estilos Liquid Glass Originales */
+        :root { --glass: rgba(255, 255, 255, 0.15); }
+        body { margin: 0; height: 100vh; overflow: hidden; font-family: -apple-system, sans-serif;
+               background: linear-gradient(135deg, #007AFF, #5AC8FA); display: flex; flex-direction: column; align-items: center; }
+        
+        .desktop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; margin-top: 100px; width: 80%; }
+        
+        .app { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
+        .app:hover { transform: scale(1.15); }
+        
+        .glass-icon { width: 90px; height: 90px; background: var(--glass); backdrop-filter: blur(20px);
+                      border-radius: 25px; border: 1px solid rgba(255,255,255,0.3);
+                      display: flex; align-items: center; justify-content: center; font-size: 45px;
+                      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        
+        .label { color: white; margin-top: 10px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
 
-<div class="grid">
-    <div class="app" onclick="abrir('YouTube')"><div class="icon">▶️</div><div>YouTube</div></div>
-    <div class="app" onclick="abrir('Fotos')"><div class="icon">📸</div><div>Fotos</div></div>
-    <div class="app" onclick="abrir('Musica')"><div class="icon">🎵</div><div>Música</div></div>
-    <div class="app" onclick="abrir('Config')"><div class="icon">⚙️</div><div>Ajustes</div></div>
-</div>
+    <div class="desktop">
+        <div class="app" onclick="window.open('https://www.youtube.com', '_blank')">
+            <div class="glass-icon">▶️</div><div class="label">YouTube</div>
+        </div>
+        <div class="app" onclick="window.open('https://www.icloud.com', '_blank')">
+            <div class="glass-icon">📧</div><div class="label">Mail</div>
+        </div>
+        <div class="app" onclick="window.open('https://www.icloud.com/photos', '_blank')">
+            <div class="glass-icon">📸</div><div class="label">Fotos</div>
+        </div>
+        <div class="app" onclick="window.open('https://www.icloud.com/notes', '_blank')">
+            <div class="glass-icon">📝</div><div class="label">Notas</div>
+        </div>
+        <div class="app" onclick="window.open('https://music.apple.com', '_blank')">
+            <div class="glass-icon">🎵</div><div class="label">Música</div>
+        </div>
+        <div class="app" onclick="window.open('https://www.google.com', '_blank')">
+            <div class="glass-icon">🌐</div><div class="label">Safari</div>
+        </div>
+    </div>
 
-<div id="modal" class="modal">
-    <button onclick="document.getElementById('modal').style.display='none'">Cerrar</button>
-    <div id="contenido"></div>
-</div>
-
-<script>
-    function abrir(app) {
-        let contenido = "";
-        if(app === 'YouTube') contenido = "<h1>YouTube</h1><p>Aquí verías tus videos.</p>";
-        if(app === 'Fotos') contenido = "<h1>Fotos</h1><p>Tu galería de imágenes.</p>";
-        if(app === 'Musica') contenido = "<h1>Música</h1><p>Tu reproductor de canciones.</p>";
-        if(app === 'Config') contenido = "<h1>Ajustes</h1><p>Configura tu dispositivo.</p>";
-        
-        document.getElementById('contenido').innerHTML = contenido;
-        document.getElementById('modal').style.display = 'block';
-    }
-</script>
+    <script>
+        // Los iconos funcionan instantáneamente con enlaces web reales.
+        console.log("Interfaz Liquid Glass cargada correctamente.");
+    </script>
 </body>
 </html>
