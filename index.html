@@ -3,52 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        /* Forzamos que la página ocupe toda la pantalla y el fondo sea el correcto */
         body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            overflow: hidden;
-            background-image: url('6d57f2020f35b0201df21df7ffd2a4e7.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            /* Si la imagen falla, esto mostrará un color de fondo para que veas que el código sirve */
+            background: #2a2a2a; 
+            font-family: sans-serif;
         }
 
-        /* Contenedor del Dock - centrado y con el estilo de vidrio */
-        .dock-container {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 12px;
-            border-radius: 32px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(40px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            display: flex;
-            gap: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .dock {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            padding: 15px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex; gap: 15px;
         }
 
-        /* Espacio para los iconos */
-        .app-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-        }
+        .app { width: 60px; height: 60px; background: #555; border-radius: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="dock-container">
-        <!-- Reemplaza los divs por tus etiquetas <img> cuando tengas los iconos -->
-        <div class="app-icon"></div>
-        <div class="app-icon"></div>
-        <div class="app-icon"></div>
-        <div class="app-icon"></div>
+    <div class="dock">
+        <div class="app"></div>
+        <div class="app"></div>
+        <div class="app"></div>
     </div>
 
 </body>
