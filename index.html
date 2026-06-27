@@ -2,30 +2,38 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Liquid Glass Pro</title>
+    <title>iPadOS Liquid Glass</title>
     <style>
         body { 
-            margin: 0; height: 100vh; background: #000;
+            margin: 0; height: 100vh; overflow: hidden; background: #000;
             background: url('https://wallpapercg.com/download/ios-26-carplay-stock-wallpaper--32005.jpg') center/cover;
-            font-family: -apple-system, sans-serif;
-            display: flex; flex-direction: column; align-items: center;
+            font-family: -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Isla Dinámica con Efecto */
+        /* Isla Dinámica con texto en cursiva y luz recorriendo */
         #dynamic-island { 
-            margin-top: 15px; width: 180px; height: 45px; background: black; border-radius: 30px;
+            margin-top: 15px; width: 220px; height: 45px; background: black; border-radius: 30px;
             display: flex; justify-content: center; align-items: center; color: white; cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000;
-            font-weight: 500; text-align: center; overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; 
+            font-family: 'Brush Script MT', cursive; font-size: 20px; text-align: center; overflow: hidden;
+            border: 2px solid transparent; 
+            background-clip: padding-box;
+            position: relative;
         }
-        #dynamic-island:hover { width: 350px; height: 120px; border-radius: 40px; }
+        
+        /* Animación de luz recorriendo el borde */
+        #dynamic-island::before {
+            content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: 32px; background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400%; z-index: -1; animation: animate-border 5s linear infinite;
+        }
+        @keyframes animate-border { 0% { background-position: 0 0; } 100% { background-position: 400% 0; } }
+        
+        #dynamic-island:hover { width: 380px; height: 120px; border-radius: 40px; font-size: 28px; }
 
         .time-container {
-            margin-top: 20px; background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px); border-radius: 20px;
-            padding: 15px 30px; color: white;
-            font-size: 60px; font-weight: 500;
-            font-stretch: ultra-condensed;
+            margin-top: 20px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: 20px;
+            padding: 15px 30px; color: white; font-size: 60px; font-weight: 500; font-stretch: ultra-condensed;
             letter-spacing: -2px; border: 1px solid rgba(255,255,255,0.2);
         }
 
@@ -34,41 +42,48 @@
         .app-icon:hover { transform: scale(1.1); }
 
         .dock {
-            position: absolute; bottom: 30px; background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px); padding: 15px 25px; border-radius: 30px;
-            display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.2);
+            position: absolute; bottom: 30px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(25px);
+            padding: 15px 25px; border-radius: 30px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
     <div id="dynamic-island" 
-         onmouseover="this.innerHTML='🎵 <b>YouTube Music</b><br>Reproduciendo tu lista'" 
-         onmouseout="this.innerHTML='iPadOS Pro'">
-         iPadOS Pro
+         onmouseover="startDynamicText(this)" 
+         onmouseout="this.innerText='Bienvenido a tu iPad'">
+         Bienvenido a tu iPad
     </div>
 
-    <div class="time-container" id="clock">02:57 p. m.</div>
+    <div class="time-container" id="clock">03:02 p. m.</div>
 
     <div class="app-grid">
         <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');" onclick="window.open('https://youtube.com', '_blank')"></div>
         <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');" onclick="window.open('https://mail.google.com', '_blank')"></div>
-        <div class="app-icon" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8TCZwCFV_XrLwzIPhScY5x-j7ymq7HxL5mg&s');" onclick="window.open('https://photos.google.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');" onclick="window.open('https://photos.google.com', '_blank')"></div>
         <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');" onclick="window.open('https://apps.apple.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Safari_icon_logo.png/600px-Safari_icon_logo.png');" onclick="window.open('https://google.com', '_blank')"></div>
     </div>
 
     <div class="dock">
         <div class="app-icon" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-itunes-store-icon-svg-download-png-493149.png');" onclick="window.open('https://music.apple.com', '_blank')"></div>
-        <div class="app-icon" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf9g_m5t3k--Z3Ijq56apjT-NYCbQmlfyKg&s');" onclick="window.open('https://icloud.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Files_app_icon.png/600px-Files_app_icon.png');" onclick="window.open('https://icloud.com', '_blank')"></div>
     </div>
 
     <script>
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('es-HN', { hour: '2-digit', minute:'2-digit', hour12: true });
-            document.getElementById('clock').innerText = timeStr.toLowerCase();
+        let intervalId;
+        function startDynamicText(el) {
+            const msgs = ["Bienvenido a tu iPad", "Welcome to your iPad", "Bienvenue sur votre iPad", "Willkommen auf Ihrem iPad"];
+            let i = 0;
+            intervalId = setInterval(() => {
+                el.innerText = msgs[i];
+                i = (i + 1) % msgs.length;
+            }, 1000);
         }
-        setInterval(updateTime, 1000);
+        
+        document.getElementById('dynamic-island').addEventListener('mouseout', () => {
+            clearInterval(intervalId);
+        });
     </script>
 </body>
 </html>
