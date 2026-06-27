@@ -1,6 +1,64 @@
-<!-- Esto le dice al iPad que se comporte como una app -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<!-- Esto pone la barra superior en negro -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<!-- El nombre que aparecerá bajo el icono en tu pantalla -->
-<meta name="apple-mobile-web-app-title" content="iOS 26">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="iOS 26">
+    <title>iOS 26</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2a5298, #1e3c72); /* Fondo tipo iOS */
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: flex-start;
+            padding-top: 50px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .label {
+            color: white;
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="icon">YT</div>
+        <div class="label">YouTube</div>
+    </div>
+
+    <div class="app-container">
+        <div class="icon">WEB</div>
+        <div class="label">Safari</div>
+    </div>
+
+</body>
+</html>
