@@ -2,30 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Liquid Glass</title>
+    <title>iPadOS Liquid Glass Pro</title>
     <style>
         body { 
-            margin: 0; height: 100vh; overflow: hidden; background: #000;
+            margin: 0; height: 100vh; background: #000;
             background: url('https://wallpapercg.com/download/ios-26-carplay-stock-wallpaper--32005.jpg') center/cover;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            font-family: -apple-system, sans-serif;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Reloj con estilo iOS alargado */
         .time-container {
             margin-top: 40px; background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px); border-radius: 20px;
             padding: 15px 30px; color: white;
             font-size: 60px; font-weight: 500;
-            font-stretch: ultra-condensed; /* Efecto letras alargadas */
+            font-stretch: ultra-condensed;
             letter-spacing: -2px; border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Contenedor de Apps */
         .app-grid { display: flex; gap: 20px; margin-top: 30px; }
-        .app-icon { width: 70px; height: 70px; background-size: cover; border-radius: 18px; }
+        /* Añadido cursor pointer para que se note que son clicables */
+        .app-icon { width: 70px; height: 70px; background-size: cover; border-radius: 18px; cursor: pointer; transition: 0.2s; }
+        .app-icon:hover { transform: scale(1.1); }
 
-        /* Dock estilo Liquid Glass */
         .dock {
             position: absolute; bottom: 30px; background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(25px); padding: 15px 25px; border-radius: 30px;
@@ -35,17 +34,17 @@
 </head>
 <body>
 
-    <div class="time-container" id="clock">02:49 p. m.</div>
+    <div class="time-container" id="clock">02:51 p. m.</div>
 
+    <!-- Apps funcionales -->
     <div class="app-grid">
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');"></div>
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');"></div>
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');" onclick="window.open('https://youtube.com', '_blank')"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');" onclick="window.open('https://mail.google.com', '_blank')"></div>
     </div>
 
+    <!-- Dock funcional -->
     <div class="dock">
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');"></div>
-        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');" onclick="window.open('https://apps.apple.com', '_blank')"></div>
     </div>
 
     <script>
