@@ -2,73 +2,57 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS 26 Liquid Glass Pro</title>
+    <title>iPadOS Liquid Glass</title>
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background: url('https://wallpapercg.com/download/ios-26-carplay-stock-wallpaper--32005.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        body { 
+            margin: 0; height: 100vh; overflow: hidden; background: #000;
+            background: url('https://wallpapercg.com/download/ios-26-carplay-stock-wallpaper--32005.jpg') center/cover;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        /* Reloj Liquid Glass (Estilo Alargado) */
-        .time-widget {
-            margin-top: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(25px);
-            padding: 20px 40px;
-            border-radius: 30px;
-            color: white;
-            font-size: 80px;
-            font-weight: 200;
-            letter-spacing: -5px;
-            font-stretch: ultra-condensed;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        /* Reloj con estilo iOS alargado */
+        .time-container {
+            margin-top: 40px; background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); border-radius: 20px;
+            padding: 15px 30px; color: white;
+            font-size: 60px; font-weight: 500;
+            font-stretch: ultra-condensed; /* Efecto letras alargadas */
+            letter-spacing: -2px; border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* Estilo de Iconos */
-        .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; margin-top: 50px; }
-        .icon-box { width: 90px; height: 90px; background-size: cover; border-radius: 22px; cursor: pointer; transition: 0.3s; }
-        .icon-box:hover { transform: scale(1.1); }
+        /* Contenedor de Apps */
+        .app-grid { display: flex; gap: 20px; margin-top: 30px; }
+        .app-icon { width: 70px; height: 70px; background-size: cover; border-radius: 18px; }
 
-        /* Dock Liquid Glass */
+        /* Dock estilo Liquid Glass */
         .dock {
-            position: absolute; bottom: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(25px);
-            padding: 15px 30px;
-            border-radius: 40px;
-            display: flex; gap: 20px;
-            border: 1px solid rgba(255,255,255,0.3);
+            position: absolute; bottom: 30px; background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px); padding: 15px 25px; border-radius: 30px;
+            display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
-    <!-- Reloj Honduras -->
-    <div class="time-widget" id="clock">02:47 PM</div>
+    <div class="time-container" id="clock">02:49 p. m.</div>
 
-    <div class="grid">
-        <div class="icon-box" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');"></div>
-        <div class="icon-box" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');"></div>
-        <div class="icon-box" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8TCZwCFV_XrLwzIPhScY5x-j7ymq7HxL5mg&s');"></div>
+    <div class="app-grid">
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');"></div>
     </div>
 
     <div class="dock">
-        <div class="icon-box" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf9g_m5t3k--Z3Ijq56apjT-NYCbQmlfyKg&s');"></div>
-        <div class="icon-box" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-itunes-store-icon-svg-download-png-493149.png');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/3/36/Photos_iOS_icon.svg');"></div>
+        <div class="app-icon" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');"></div>
     </div>
 
     <script>
-        // Actualizar hora automáticamente
         function updateTime() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('es-HN', { hour: '2-digit', minute:'2-digit' });
+            const timeStr = now.toLocaleTimeString('es-HN', { hour: '2-digit', minute:'2-digit', hour12: true });
+            document.getElementById('clock').innerText = timeStr.toLowerCase();
         }
         setInterval(updateTime, 1000);
     </script>
