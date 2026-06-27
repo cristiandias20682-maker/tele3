@@ -2,62 +2,75 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS 26 - Liquid Glass</title>
+    <title>iPadOS 26 Liquid Glass Pro</title>
     <style>
-        body { 
-            margin: 0; height: 100vh; overflow: hidden; font-family: -apple-system, sans-serif;
-            /* Aplicando tu fondo de pantalla seleccionado */
+        body {
+            margin: 0;
+            height: 100vh;
             background: url('https://wallpapercg.com/download/ios-26-carplay-stock-wallpaper--32005.jpg') no-repeat center center fixed;
             background-size: cover;
-            display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Isla Dinámica */
-        #dynamic-island { position: absolute; top: 15px; width: 180px; height: 45px; background: black; border-radius: 30px;
-                          transition: 0.5s; display: flex; justify-content: center; align-items: center; color: white; cursor: pointer; z-index: 1000; }
-        #dynamic-island:hover { width: 350px; height: 120px; border-radius: 40px; }
+        /* Reloj Liquid Glass (Estilo Alargado) */
+        .time-widget {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            padding: 20px 40px;
+            border-radius: 30px;
+            color: white;
+            font-size: 80px;
+            font-weight: 200;
+            letter-spacing: -5px;
+            font-stretch: ultra-condensed;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
 
-        /* Escritorio con tus iconos */
-        .desktop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; margin-top: 100px; width: 85%; }
-        .app { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
-        .app:hover { transform: scale(1.15); }
-        
-        .icon-custom { width: 90px; height: 90px; background-size: cover; background-position: center; 
-                       border-radius: 22px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); }
-        .label { color: white; margin-top: 10px; font-weight: 500; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        /* Estilo de Iconos */
+        .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px; margin-top: 50px; }
+        .icon-box { width: 90px; height: 90px; background-size: cover; border-radius: 22px; cursor: pointer; transition: 0.3s; }
+        .icon-box:hover { transform: scale(1.1); }
 
-        /* Dock */
-        .dock { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(25px); padding: 15px 30px; border-radius: 40px; 
-                margin-bottom: 30px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.3); }
-        .dock-icon { width: 70px; height: 70px; background-size: cover; border-radius: 20px; cursor: pointer; }
+        /* Dock Liquid Glass */
+        .dock {
+            position: absolute; bottom: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px);
+            padding: 15px 30px;
+            border-radius: 40px;
+            display: flex; gap: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
     </style>
 </head>
 <body>
 
-    <div id="dynamic-island" onmouseover="this.innerHTML='🎵 <b>Reproduciendo</b>...'" onmouseout="this.innerHTML=''"></div>
+    <!-- Reloj Honduras -->
+    <div class="time-widget" id="clock">02:47 PM</div>
 
-    <div class="desktop">
-        <div class="app" onclick="window.open('https://apps.apple.com', '_blank')">
-            <div class="icon-custom" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/App_Store_%28iOS%29.svg/960px-App_Store_%28iOS%29.svg.png');"></div>
-            <div class="label">App Store</div>
-        </div>
-        <div class="app" onclick="window.open('https://keep.google.com', '_blank')">
-            <div class="icon-custom" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-notes-icon-svg-download-png-493153.png');"></div>
-            <div class="label">Notas</div>
-        </div>
-        <div class="app" onclick="window.open('https://music.apple.com', '_blank')">
-            <div class="icon-custom" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-itunes-store-icon-svg-download-png-493149.png');"></div>
-            <div class="label">iTunes</div>
-        </div>
-        <div class="app" onclick="window.open('https://photos.google.com', '_blank')">
-            <div class="icon-custom" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8TCZwCFV_XrLwzIPhScY5x-j7ymq7HxL5mg&s');"></div>
-            <div class="label">Fotos</div>
-        </div>
+    <div class="grid">
+        <div class="icon-box" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg');"></div>
+        <div class="icon-box" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Mail_%28iOS%29.svg');"></div>
+        <div class="icon-box" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8TCZwCFV_XrLwzIPhScY5x-j7ymq7HxL5mg&s');"></div>
     </div>
 
     <div class="dock">
-        <div class="dock-icon" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf9g_m5t3k--Z3Ijq56apjT-NYCbQmlfyKg&s');" onclick="window.open('https://youtube.com', '_blank')"></div>
+        <div class="icon-box" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRf9g_m5t3k--Z3Ijq56apjT-NYCbQmlfyKg&s');"></div>
+        <div class="icon-box" style="background-image: url('https://cdn.iconscout.com/icon/free/png-256/free-apple-itunes-store-icon-svg-download-png-493149.png');"></div>
     </div>
 
+    <script>
+        // Actualizar hora automáticamente
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('es-HN', { hour: '2-digit', minute:'2-digit' });
+        }
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
