@@ -2,53 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>iPadOS Clone Pro</title>
+    <title>iPadOS Clone</title>
     <style>
-        body { margin: 0; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #007AFF, #FF2D55); display: flex; flex-direction: column; align-items: center; font-family: sans-serif; }
-        
-        /* Grid de Apps */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 80px; }
+        body { margin: 0; font-family: sans-serif; background: linear-gradient(135deg, #007AFF, #5AC8FA); height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 50px; }
         .app { text-align: center; cursor: pointer; color: white; transition: 0.3s; }
-        .app:hover { transform: scale(1.1); }
-        .icon { width: 90px; height: 90px; border-radius: 20px; background: white; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-
-        /* Dock */
-        .dock { background: rgba(255,255,255,0.2); backdrop-filter: blur(20px); padding: 15px 30px; border-radius: 30px; position: absolute; bottom: 20px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.3); }
-        .dock-icon { width: 60px; height: 60px; border-radius: 15px; background: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; }
-
-        /* Modal (La App) */
-        #appModal { display: none; position: fixed; inset: 5%; background: white; border-radius: 30px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .close { background: #ff3b30; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; }
+        .icon { width: 80px; height: 80px; background: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal { display: none; position: fixed; inset: 5%; background: white; border-radius: 30px; padding: 20px; z-index: 999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="grid">
-        <div class="app" onclick="abrirApp('YouTube', '▶️')"><div class="icon">▶️</div><div>YouTube</div></div>
-        <div class="app" onclick="abrirApp('Mail', '📧')"><div class="icon">📧</div><div>Mail</div></div>
-        <div class="app" onclick="abrirApp('Fotos', '📸')"><div class="icon">📸</div><div>Fotos</div></div>
-        <div class="app" onclick="abrirApp('Notas', '📝')"><div class="icon">📝</div><div>Notas</div></div>
-    </div>
+<div class="grid">
+    <div class="app" onclick="abrir('YouTube')"><div class="icon">▶️</div><div>YouTube</div></div>
+    <div class="app" onclick="abrir('Fotos')"><div class="icon">📸</div><div>Fotos</div></div>
+    <div class="app" onclick="abrir('Musica')"><div class="icon">🎵</div><div>Música</div></div>
+    <div class="app" onclick="abrir('Config')"><div class="icon">⚙️</div><div>Ajustes</div></div>
+</div>
 
-    <div class="dock">
-        <div class="dock-icon" onclick="abrirApp('Mensajes', '💬')">💬</div>
-        <div class="dock-icon" onclick="abrirApp('Safari', '🌐')">🌐</div>
-        <div class="dock-icon" onclick="abrirApp('Música', '🎵')">🎵</div>
-        <div class="dock-icon" onclick="abrirApp('Configuración', '⚙️')">⚙️</div>
-    </div>
+<div id="modal" class="modal">
+    <button onclick="document.getElementById('modal').style.display='none'">Cerrar</button>
+    <div id="contenido"></div>
+</div>
 
-    <div id="appModal">
-        <button class="close" onclick="document.getElementById('appModal').style.display='none'">Cerrar</button>
-        <h1 id="appTitulo">App</h1>
-        <div id="appContenido">Aquí pondremos la interfaz real de la app.</div>
-    </div>
-
-    <script>
-        function abrirApp(nombre, icono) {
-            document.getElementById('appTitulo').innerText = nombre;
-            document.getElementById('appContenido').innerHTML = `<h2>Bienvenido a ${nombre}</h2><p>Esta es la interfaz de ${nombre} que puedes personalizar.</p>`;
-            document.getElementById('appModal').style.display = 'block';
-        }
-    </script>
+<script>
+    function abrir(app) {
+        let contenido = "";
+        if(app === 'YouTube') contenido = "<h1>YouTube</h1><p>Aquí verías tus videos.</p>";
+        if(app === 'Fotos') contenido = "<h1>Fotos</h1><p>Tu galería de imágenes.</p>";
+        if(app === 'Musica') contenido = "<h1>Música</h1><p>Tu reproductor de canciones.</p>";
+        if(app === 'Config') contenido = "<h1>Ajustes</h1><p>Configura tu dispositivo.</p>";
+        
+        document.getElementById('contenido').innerHTML = contenido;
+        document.getElementById('modal').style.display = 'block';
+    }
+</script>
 </body>
 </html>
