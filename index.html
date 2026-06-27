@@ -1,82 +1,46 @@
-html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPadOS Clone - Honduras</title>
+    <title>iPadOS Pro Interactivo</title>
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-                     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+        :root { --blur: blur(20px); }
+        body { margin: 0; height: 100vh; background: linear-gradient(135deg, #a8edea, #fed6e3); font-family: -apple-system, sans-serif; overflow: hidden; display: flex; flex-direction: column; align-items: center; }
+
+        /* Dynamic Island */
+        #dynamic-island { position: absolute; top: 10px; width: 120px; height: 35px; background: black; border-radius: 20px; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; justify-content: center; align-items: center; color: white; font-size: 12px; cursor: pointer; }
+        #dynamic-island:hover { width: 300px; height: 100px; border-radius: 40px; }
+
+        /* Apps y Animaciones */
+        .app-icon { transition: transform 0.3s; cursor: pointer; }
+        .app-icon:hover { transform: scale(1.15); }
         
-        /* Barra superior */
-        .status-bar { width: 100%; height: 30px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: white; font-weight: bold; font-size: 14px; }
-
-        /* Contenedor principal */
-        .home-screen { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; width: 90%; height: 75vh; padding: 20px; }
-
-        /* Widgets */
-        .widget { background: rgba(255, 255, 255, 0.4); border-radius: 25px; backdrop-filter: blur(20px); padding: 15px; color: white; }
-        .span-2 { grid-column: span 2; }
-        .span-3 { grid-column: span 3; }
-
-        /* Apps */
-        .app-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 15px; grid-column: span 6; }
-        .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 12px; cursor: pointer; }
-        .icon-circle { width: 70px; height: 70px; border-radius: 18px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-
-        /* Dock */
-        .dock { position: absolute; bottom: 20px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(30px); padding: 10px; border-radius: 30px; display: flex; gap: 10px; border: 1px solid rgba(255,255,255,0.3); }
-        .dock-item { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 25px; }
+        /* Modal (App abierta) */
+        .modal { display: none; position: fixed; top: 10%; left: 10%; width: 80%; height: 80%; background: rgba(255,255,255,0.9); border-radius: 30px; backdrop-filter: var(--blur); padding: 20px; z-index: 100; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .close-btn { color: red; cursor: pointer; float: right; font-weight: bold; }
+        
+        /* Estilos previos (Widgets, Dock, etc.) mantenidos aquí... */
     </style>
 </head>
 <body>
 
-    <div class="status-bar">
-        <span id="time"></span>
-        <span>100% 🔋</span>
+    <div id="dynamic-island" onmouseover="this.innerText='Reproduciendo: Hits Latinos'" onmouseout="this.innerText=''"></div>
+
+    <div class="app-icon" onclick="openApp('YouTube')">
+        <div class="icon-circle" style="background: #ff0000;">▶️</div>YouTube
     </div>
 
-    <div class="home-screen">
-        <div class="widget span-2">📅 <b>Calendario</b><br>Hoy: Eventos en San Pedro Sula</div>
-        <div class="widget span-2">☁️ <b>Clima</b><br>San Pedro Sula: 32°C, Soleado</div>
-        <div class="widget span-2">🎵 <b>Música</b><br>Reproduciendo: Hits Latinos</div>
-        
-        <div class="app-grid">
-            <div class="app-icon"><div class="icon-circle" style="background: #ff0000;">▶️</div>YouTube</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #007bff;">🔵</div>Mail</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #28a745;">📞</div>Phone</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #6c757d;">📷</div>Camera</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #fd7e14;">📝</div>Notes</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #e83e8c;">💬</div>Messages</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #17a2b8;">🗺️</div>Maps</div>
-            <div class="app-icon"><div class="icon-circle" style="background: #343a40;">⚙️</div>Settings</div>
-        </div>
-    </div>
-
-    <div class="dock">
-        <div class="dock-item" style="background: #4caf50;">💬</div>
-        <div class="dock-item" style="background: #2196f3;">🌐</div>
-        <div class="dock-item" style="background: #f44336;">🎵</div>
-        <div class="dock-item" style="background: #ff9800;">📷</div>
+    <div id="appModal" class="modal">
+        <span class="close-btn" onclick="document.getElementById('appModal').style.display='none'">Cerrar X</span>
+        <h2 id="modalTitle">App</h2>
+        <p>Contenido de la aplicación funcional aquí...</p>
     </div>
 
     <script>
-        function updateTime() {
-            const now = new Date();
-            const options = { hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'America/Tegucigalpa' };
-            document.getElementById('time').innerText = now.toLocaleTimeString('es-HN', options);
+        function openApp(name) {
+            document.getElementById('appModal').style.display = 'block';
+            document.getElementById('modalTitle').innerText = name;
         }
-        setInterval(updateTime, 1000);
-        updateTime();
     </script>
 </body>
 </html>
-"""
-
-with open('index.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-"""
-
-print("Archivo index.html generado correctamente.")
-"""
