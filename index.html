@@ -30,7 +30,8 @@
             background: var(--dock-bg); backdrop-filter: var(--blur); padding: 15px 25px; border-radius: 35px;
             margin-bottom: 20px; display: flex; gap: 20px; border: 1px solid rgba(255,255,255,0.2);
         }
-        .dock-icon { width: 65px; height: 65px; border-radius: 18px; background: white; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        .dock-icon { width: 65px; height: 65px; border-radius: 18px; background: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; transition: transform 0.2s;}
+        .dock-icon:hover { transform: scale(1.1); }
 
         /* Modal */
         .modal { 
@@ -41,7 +42,7 @@
 </head>
 <body>
 
-    <div id="dynamic-island" onmouseover="this.innerHTML='🎵 <b>YouTube</b><br>Reproduciendo música'" onmouseout="this.innerHTML=''"></div>
+    <div id="dynamic-island" onmouseover="this.innerHTML='🎵 <b>Reproduciendo Música</b>'" onmouseout="this.innerHTML=''"></div>
 
     <div class="grid">
         <div class="app" onclick="openApp('YouTube', '#FF0000')"><div class="icon" style="background:#FF0000">▶️</div><div class="label">YouTube</div></div>
@@ -51,22 +52,22 @@
     </div>
 
     <div class="dock">
-        <div class="dock-icon">💬</div>
-        <div class="dock-icon">🌐</div>
-        <div class="dock-icon">🎵</div>
-        <div class="dock-icon">⚙️</div>
+        <div class="dock-icon" onclick="openApp('Mensajes', '#4caf50')">💬</div>
+        <div class="dock-icon" onclick="openApp('Safari', '#2196f3')">🌐</div>
+        <div class="dock-icon" onclick="openApp('Música', '#f44336')">🎵</div>
+        <div class="dock-icon" onclick="openApp('Configuración', '#607d8b')">⚙️</div>
     </div>
 
     <div id="modal" class="modal">
         <button onclick="document.getElementById('modal').style.display='none'">Cerrar</button>
         <h1 id="appName">App</h1>
+        <p>Contenido funcional simulado para esta aplicación.</p>
     </div>
 
     <script>
         function openApp(name, color) {
             const m = document.getElementById('modal');
             m.style.display = 'block';
-            m.style.background = color + "44";
             document.getElementById('appName').innerText = name;
         }
     </script>
