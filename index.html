@@ -2,17 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextGen TV OS</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
             --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.05);
-            --accent: #00ff9d;
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-hover: rgba(56, 189, 248, 0.15);
+            --accent: #38bdf8;
+            --active-green: #00ff9d;
         }
 
         body { 
-            background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif;
+            background: var(--bg); color: white; font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0; padding: 40px; overflow-x: hidden;
         }
 
@@ -21,96 +24,220 @@
             display: grid;
             grid-template-columns: 1.5fr 1fr;
             gap: 30px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         #contenedor-reproductor {
             width: 100%; aspect-ratio: 16/9; border-radius: 20px;
-            overflow: hidden; border: 2px solid #222;
+            overflow: hidden; border: 2px solid rgba(255,255,255,0.1);
+            background: #000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
+
+        .video-js { width: 100%; height: 100%; }
 
         .panel-info {
             background: var(--glass); backdrop-filter: blur(20px);
-            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; justify-content: center;
         }
 
+        .panel-info h1 { margin: 0 0 10px 0; font-size: 24px; color: var(--accent); }
+        .panel-info p { margin: 0 0 5px 0; font-size: 16px; font-weight: 600; }
+        .panel-info small { opacity: 0.6; font-size: 13px; }
+
         /* CARRUSEL DE CANALES */
-        .fila-seccion { margin-bottom: 40px; }
-        .titulo-seccion { font-size: 20px; margin-bottom: 20px; opacity: 0.8; }
+        .fila-seccion { margin-bottom: 35px; }
+        .titulo-seccion { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; color: #cbd5e1; }
         
         .carrusel {
-            display: flex; gap: 20px; overflow-x: auto; padding: 10px;
+            display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px; scroll-behavior: smooth;
         }
         .carrusel::-webkit-scrollbar { display: none; }
 
         .card-canal {
-            min-width: 250px; height: 140px; background: var(--glass);
-            border-radius: 15px; display: flex; align-items: center; justify-content: center;
-            border: 2px solid transparent; transition: 0.3s;
+            min-width: 240px; height: 130px; background: var(--glass);
+            border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end;
+            border: 2px solid rgba(255,255,255,0.08); transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer; position: relative; box-sizing: border-box; flex-shrink: 0;
         }
 
-        /* ESTADO DE FOCO */
-        .card-canal:focus {
-            transform: scale(1.1); border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3); outline: none;
+        /* ESTADO DE FOCO PARA CONTROL REMOTO (D-PAD) */
+        .card-canal:focus, .card-canal:hover {
+            transform: scale(1.08) translateY(-4px);
+            border-color: var(--accent);
+            background: var(--glass-hover);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 25px rgba(56, 189, 248, 0.4);
+            outline: none;
+            z-index: 10;
         }
+
+        .card-canal.activo {
+            border-color: var(--active-green) !important;
+            background: rgba(0, 255, 157, 0.15) !important;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 25px rgba(0, 255, 157, 0.4);
+        }
+
+        .card-canal .badge {
+            position: absolute; top: 12px; right: 14px;
+            background: #ef4444; color: white; font-size: 9px; font-weight: 800;
+            padding: 3px 8px; border-radius: 6px;
+        }
+
+        .card-canal h4 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
 
         /* DOCK DE APPS INFERIOR */
         #dock-apps {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 20px; background: var(--glass);
-            padding: 15px 40px; border-radius: 50px; backdrop-filter: blur(20px);
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 20px; background: rgba(15, 23, 42, 0.85);
+            padding: 12px 25px; border-radius: 30px; backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15); z-index: 9999;
         }
 
         .app-icon {
-            width: 50px; height: 50px; border-radius: 10px;
-            background: #222; display: flex; align-items: center; justify-content: center;
-            transition: 0.3s;
+            width: 45px; height: 45px; border-radius: 14px;
+            background: #1e293b; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; font-weight: bold; font-size: 14px;
         }
-        .app-icon:focus { transform: scale(1.2); border: 2px solid white; outline: none; }
+        .app-icon:focus, .app-icon:hover { transform: scale(1.15); border-color: var(--accent); box-shadow: 0 0 20px rgba(56,189,248,0.5); outline: none; }
     </style>
 </head>
 <body>
 
     <div class="top-section">
         <div id="contenedor-reproductor">
-            <video id="reproductor-tv" class="video-js" controls></video>
+            <video id="reproductor-tv" class="video-js vjs-big-play-centered" controls preload="auto"></video>
         </div>
         <div class="panel-info">
-            <h1>Canal 5 (Oficial)</h1>
-            <p>EN VIVO: Honduras vs. Costa Rica</p>
-            <small>Transmisión en directo desde el estadio...</small>
+            <h1 id="info-titulo">NextGen TV OS</h1>
+            <p id="info-estado">Selecciona un canal para comenzar</p>
+            <small id="info-sub">Transmisión en directo</small>
         </div>
     </div>
 
+    <!-- SECCIÓN DE CANALES LOCALES / DESTACADOS (HCH, Santa Bárbara, etc.) -->
     <div class="fila-seccion">
-        <div class="titulo-seccion">Canales</div>
-        <div class="carrusel" id="lista-canales">
-            <!-- Tarjetas de Canales -->
-            <div class="card-canal" tabindex="0">Deportes TVC</div>
-            <div class="card-canal" tabindex="0">Canal 5</div>
-            <div class="card-canal" tabindex="0">Telecadena</div>
+        <div class="titulo-seccion">🌟 HCH y Canales Destacados</div>
+        <div class="carrusel" id="lista-destacados">
+            <!-- Puedes añadir canales fijos o locales aquí -->
+            <div class="card-canal" tabindex="0" onclick="reproducirCanal('HCH Honduras', 'https://turadio.live/8014/stream', 'Canal HCH en Directo')">
+                <span class="badge" style="background:#eab308;">DESTACADO</span>
+                <p>Nacional</p>
+                <h4>HCH Televisión</h4>
+            </div>
+            <div class="card-canal" tabindex="0" onclick="reproducirCanal('Canal 5 Oficial', 'https://www.televicentro.com', 'Televicentro')">
+                <span class="badge">WEB</span>
+                <p>Televicentro</p>
+                <h4>Canal 5</h4>
+            </div>
+            <div class="card-canal" tabindex="0" onclick="reproducirCanal('Deportes TVC', 'https://www.deportestvc.com', 'Deportes')">
+                <span class="badge">WEB</span>
+                <p>Deportes</p>
+                <h4>Deportes TVC</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN DE CANALES AUTOMÁTICOS (IPTV HONDURAS) -->
+    <div class="fila-seccion">
+        <div class="titulo-seccion">🌐 Canales Nacionales (IPTV)</div>
+        <div class="carrusel" id="contenedor-canales-dinamicos">
+            <!-- Se cargan dinámicamente -->
         </div>
     </div>
 
     <div id="dock-apps">
-        <div class="app-icon" tabindex="0">YT</div>
-        <div class="app-icon" tabindex="0">NF</div>
-        <div class="app-icon" tabindex="0">PV</div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">YT</div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix" style="color:#e50914;">NF</div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video" style="color:#00a8e1;">PV</div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
     <script>
-        videojs('reproductor-tv', { fluid: true });
-        
-        // Navegación inteligente
+        const player = videojs('reproductor-tv', { fluid: true });
+        const URL_M3U = 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/hn.m3u';
+
+        function reproducirCanal(nombre, url, categoria) {
+            document.getElementById('info-titulo').innerText = nombre;
+            document.getElementById('info-estado').innerText = "EN VIVO: " + nombre;
+            document.getElementById('info-sub').innerText = "Categoría: " + categoria;
+
+            if(url.includes('http') && !url.includes('televicentro') && !url.includes('deportestvc')) {
+                player.src({ type: 'application/x-mpegURL', src: url });
+                player.play();
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+
+        // Navegación universal por control remoto (D-Pad)
         document.addEventListener('keydown', (e) => {
-            const allFocusable = document.querySelectorAll('[tabindex="0"]');
-            let index = Array.from(allFocusable).indexOf(document.activeElement);
-            
-            if(e.key === 'ArrowRight' && index < allFocusable.length - 1) allFocusable[index + 1].focus();
-            if(e.key === 'ArrowLeft' && index > 0) allFocusable[index - 1].focus();
+            const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon'));
+            let index = focusables.indexOf(document.activeElement);
+
+            if (e.key === 'ArrowRight' && index < focusables.length - 1) {
+                if(index === -1) focusables[0].focus();
+                else focusables[index + 1].focus();
+                focusables[index + 1]?.scrollIntoView({ behavior: 'smooth', inline: 'nearest' });
+            } else if (e.key === 'ArrowLeft' && index > 0) {
+                focusables[index - 1].focus();
+                focusables[index - 1]?.scrollIntoView({ behavior: 'smooth', inline: 'nearest' });
+            }
         });
+
+        // Carga automática de canales IPTV de Honduras
+        async function cargarCanalesIPTV() {
+            try {
+                const contenedor = document.getElementById('contenedor-canales-dinamicos');
+                const respuesta = await fetch(URL_M3U);
+                const texto = await respuesta.text();
+                const lineas = texto.split('\n');
+                const fragmento = document.createDocumentFragment();
+                let nombreCanal = '';
+
+                for (let i = 0; i < lineas.length; i++) {
+                    const linea = lineas[i].trim();
+                    if (!linea) continue;
+
+                    if (linea.startsWith('#EXTINF:')) {
+                        const partes = linea.split(',');
+                        nombreCanal = (partes[1] || 'Canal').trim();
+                    } else if (linea.startsWith('http') && nombreCanal) {
+                        const card = document.createElement('div');
+                        card.className = 'card-canal';
+                        card.tabIndex = 0;
+                        
+                        card.innerHTML = `
+                            <span class="badge">LIVE</span>
+                            <p>Honduras</p>
+                            <h4>${nombreCanal}</h4>
+                        `;
+
+                        const urlStream = linea;
+                        const nombreActual = nombreCanal;
+
+                        const accion = () => {
+                            reproducirCanal(nombreActual, urlStream, 'Señal IPTV');
+                            const todas = document.querySelectorAll('.card-canal');
+                            todas.forEach(c => c.classList.remove('activo'));
+                            card.classList.add('activo');
+                        };
+
+                        card.onclick = accion;
+                        card.onkeydown = (e) => { if(e.key === 'Enter') accion(); };
+
+                        fragmento.appendChild(card);
+                        nombreCanal = '';
+                    }
+                }
+                contenedor.appendChild(fragmento);
+            } catch (error) {
+                console.error("Error al cargar lista IPTV", error);
+            }
+        }
+
+        window.addEventListener('load', cargarCanalesIPTV);
     </script>
 </body>
 </html>
