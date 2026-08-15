@@ -7,153 +7,168 @@
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
-            --bg-gradiente: radial-gradient(circle at 50% 20%, #0f172a 0%, #020617 100%);
-            --glass: rgba(15, 23, 42, 0.7);
-            --glass-hover: rgba(56, 189, 248, 0.2);
+            --bg-base: #030712;
+            --glass-bg: rgba(15, 23, 42, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-border-hover: rgba(56, 189, 248, 0.5);
             --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.35);
             --gemini-color: #c084fc;
             --active-green: #00ff9d;
         }
 
         body { 
-            background: var(--bg-gradiente);
-            color: white; 
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-base);
+            color: #f8fafc; 
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
             margin: 0; 
-            padding: 40px; 
+            padding: 40px 50px; 
             min-height: 100vh;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(192, 132, 252, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #0b0f19 0%, #030712 100%);
             background-attachment: fixed;
-        }
-
-        /* EFECTO DE LUZ AMBIENTAL */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -20%; left: -20%; width: 70vw; height: 70vh;
-            background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            pointer-events: none;
         }
 
         /* DISTRIBUCIÓN SUPERIOR */
         .top-section {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1.6fr 1fr;
             gap: 30px;
             margin-bottom: 40px;
         }
 
         #contenedor-reproductor {
-            width: 100%; aspect-ratio: 16/9; border-radius: 20px;
-            overflow: hidden; border: 2px solid rgba(255,255,255,0.12);
+            width: 100%; aspect-ratio: 16/9; border-radius: 24px;
+            overflow: hidden; border: 1px solid var(--glass-border);
             background: #000;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(56, 189, 248, 0.05);
         }
 
         .video-js { width: 100%; height: 100%; }
 
         .panel-info {
-            background: var(--glass); backdrop-filter: blur(25px);
-            border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
+            background: var(--glass-bg); 
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 24px; 
+            padding: 28px; 
+            border: 1px solid var(--glass-border);
             display: flex; flex-direction: column; justify-content: space-between;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             height: 100%; box-sizing: border-box;
         }
 
-        .panel-info h1 { margin: 0 0 5px 0; font-size: 20px; color: var(--accent); }
-        .panel-info p { margin: 0 0 5px 0; font-size: 14px; font-weight: 600; }
-        .panel-info small { opacity: 0.6; font-size: 11px; }
+        .panel-info h1 { margin: 0 0 6px 0; font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+        .panel-info p { margin: 0 0 4px 0; font-size: 14px; font-weight: 600; color: #e2e8f0; }
+        .panel-info small { opacity: 0.5; font-size: 12px; }
 
         /* CHAT INTERACTIVO DE GEMINI */
         .gemini-chat-box {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 14px;
-            padding: 12px;
-            margin-top: 10px;
-            border: 1px solid rgba(192, 132, 252, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 12px;
+            border: 1px solid rgba(192, 132, 252, 0.25);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
         }
         
         .gemini-header {
             display: flex; align-items: center; gap: 6px;
             font-size: 12px; font-weight: 700; color: var(--gemini-color);
+            letter-spacing: 0.5px;
         }
 
         .gemini-messages {
-            max-height: 90px; overflow-y: auto; font-size: 12px; opacity: 0.9;
-            padding-right: 5px; line-height: 1.4;
+            max-height: 90px; overflow-y: auto; font-size: 12px; opacity: 0.85;
+            padding-right: 5px; line-height: 1.5; color: #cbd5e1;
         }
         .gemini-messages::-webkit-scrollbar { width: 3px; }
         .gemini-messages::-webkit-scrollbar-thumb { background: var(--gemini-color); border-radius: 3px; }
 
         .gemini-input-row {
-            display: flex; gap: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;
+            display: flex; gap: 8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 10px;
         }
 
         .gemini-input-row input {
             width: 100%; background: transparent; border: none; color: white;
-            font-size: 12px; outline: none;
+            font-size: 13px; outline: none;
         }
+        .gemini-input-row input::placeholder { color: rgba(255,255,255,0.3); }
 
         /* CARRUSEL DE CANALES */
-        .fila-seccion { margin-bottom: 35px; }
-        .titulo-seccion { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; color: #cbd5e1; }
+        .fila-seccion { margin-bottom: 40px; }
+        .titulo-seccion { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; color: #94a3b8; display: flex; align-items: center; gap: 10px; }
         
         .carrusel {
-            display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px; scroll-behavior: smooth;
+            display: flex; gap: 22px; overflow-x: auto; padding: 15px 5px; scroll-behavior: smooth;
         }
         .carrusel::-webkit-scrollbar { display: none; }
 
         .card-canal {
-            min-width: 240px; height: 130px; background: var(--glass);
-            border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end;
-            border: 2px solid rgba(255,255,255,0.08); transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            min-width: 250px; height: 135px; background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 22px; display: flex; flex-direction: column; justify-content: flex-end;
+            border: 1px solid var(--glass-border); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer; position: relative; box-sizing: border-box; flex-shrink: 0;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
 
         .card-canal:focus, .card-canal:hover {
-            transform: scale(1.08) translateY(-4px);
-            border-color: var(--accent);
-            background: var(--glass-hover);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 25px rgba(56, 189, 248, 0.4);
+            transform: scale(1.06) translateY(-6px);
+            border-color: var(--glass-border-hover);
+            background: rgba(30, 41, 59, 0.85);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow);
             outline: none;
             z-index: 10;
         }
 
         .card-canal.activo {
             border-color: var(--active-green) !important;
-            background: rgba(0, 255, 157, 0.2) !important;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 25px rgba(0, 255, 157, 0.4);
+            background: rgba(0, 255, 157, 0.12) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0, 255, 157, 0.3) !important;
         }
 
         .card-canal .badge {
-            position: absolute; top: 12px; right: 14px;
-            background: #ef4444; color: white; font-size: 9px; font-weight: 800;
-            padding: 3px 8px; border-radius: 6px;
+            position: absolute; top: 14px; right: 16px;
+            background: rgba(239, 68, 68, 0.85); color: white; font-size: 9px; font-weight: 800;
+            padding: 4px 9px; border-radius: 8px; letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
         }
 
-        .card-canal h4 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
+        .card-canal h4 { margin: 0; font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f8fafc; }
+        .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
 
-        /* DOCK DE APPS CON LOGOS OFICIALES OPTIMIZADOS */
+        /* DOCK DE APPS ESTILO MAC/TV */
         #dock-apps {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 20px; background: rgba(15, 23, 42, 0.85);
-            padding: 12px 30px; border-radius: 30px; backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.15); z-index: 9999;
+            display: flex; gap: 20px; background: rgba(15, 23, 42, 0.75);
+            padding: 12px 32px; border-radius: 32px; backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.12); z-index: 9999;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1);
         }
 
         .app-icon {
-            width: 50px; height: 50px; border-radius: 14px;
-            background: #1e293b; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; overflow: hidden;
+            width: 54px; height: 54px; border-radius: 16px;
+            background: rgba(30, 41, 59, 0.8); display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; 
+            border: 1px solid rgba(255,255,255,0.06); overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
-        .app-icon img { width: 80%; height: 80%; object-fit: contain; }
-        .app-icon:focus, .app-icon:hover { transform: scale(1.15); border-color: var(--accent); box-shadow: 0 0 20px rgba(56,189,248,0.5); outline: none; }
+        .app-icon img { width: 75%; height: 75%; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .app-icon:focus, .app-icon:hover { 
+            transform: scale(1.2) translateY(-6px); 
+            border-color: var(--glass-border-hover); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 25px var(--accent-glow); 
+            outline: none; 
+        }
     </style>
 </head>
 <body>
