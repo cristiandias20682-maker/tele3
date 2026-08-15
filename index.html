@@ -139,7 +139,7 @@
         .card-canal h4 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
 
-        /* DOCK DE APPS CON ICONOS VECTORIALES PERFECTOS */
+        /* DOCK DE APPS CON LOGOS OFICIALES OPTIMIZADOS */
         #dock-apps {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 20px; background: rgba(15, 23, 42, 0.85);
@@ -150,9 +150,9 @@
         .app-icon {
             width: 50px; height: 50px; border-radius: 14px;
             background: #1e293b; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent;
+            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; overflow: hidden;
         }
-        .app-icon svg { width: 28px; height: 28px; }
+        .app-icon img { width: 80%; height: 80%; object-fit: contain; }
         .app-icon:focus, .app-icon:hover { transform: scale(1.15); border-color: var(--accent); box-shadow: 0 0 20px rgba(56,189,248,0.5); outline: none; }
     </style>
 </head>
@@ -209,19 +209,19 @@
         <div class="carrusel" id="contenedor-canales-dinamicos"></div>
     </div>
 
-    <!-- DOCK CON LOGOS VECTORIALES INCORPORADOS -->
+    <!-- DOCK CON LOGOS REALES GARANTIZADOS -->
     <div id="dock-apps">
         <!-- YouTube -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">
-            <svg viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube">
         </div>
         <!-- Netflix -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix">
-            <svg viewBox="0 0 24 24" fill="#e50914"><path d="M5.503 4.027v15.946H8.25V13.88l7.535 6.093h2.712V4.027h-2.748v6.093L8.25 4.027H5.503z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix">
         </div>
         <!-- Prime Video -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video">
-            <svg viewBox="0 0 24 24" fill="#00a8e1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.svg" alt="Prime Video">
         </div>
     </div>
 
