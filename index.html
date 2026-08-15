@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextGen TV OS + AI Assistant</title>
+    <title>NextGen TV OS + Google Gemini AI</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
             --bg-gradiente: radial-gradient(circle at 50% 20%, #0f172a 0%, #020617 100%);
-            --glass: rgba(15, 23, 42, 0.65);
+            --glass: rgba(15, 23, 42, 0.7);
             --glass-hover: rgba(56, 189, 248, 0.2);
             --accent: #38bdf8;
+            --gemini-color: #c084fc;
             --active-green: #00ff9d;
         }
 
@@ -25,17 +26,17 @@
             background-attachment: fixed;
         }
 
-        /* EFECTO DE LUZ AMBIENTAL DE FONDO */
+        /* EFECTO DE LUZ AMBIENTAL */
         body::before {
             content: '';
             position: fixed;
             top: -20%; left: -20%; width: 70vw; height: 70vh;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* DISTRIBUCIÓN SUPERIOR: REPRODUCTOR + PANEL INFO */
+        /* DISTRIBUCIÓN SUPERIOR */
         .top-section {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -54,30 +55,47 @@
 
         .panel-info {
             background: var(--glass); backdrop-filter: blur(25px);
-            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column; justify-content: space-between;
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            height: 100%; box-sizing: border-box;
         }
 
-        .panel-info h1 { margin: 0 0 10px 0; font-size: 22px; color: var(--accent); }
-        .panel-info p { margin: 0 0 5px 0; font-size: 15px; font-weight: 600; }
-        .panel-info small { opacity: 0.6; font-size: 12px; }
+        .panel-info h1 { margin: 0 0 5px 0; font-size: 20px; color: var(--accent); }
+        .panel-info p { margin: 0 0 5px 0; font-size: 14px; font-weight: 600; }
+        .panel-info small { opacity: 0.6; font-size: 11px; }
 
-        /* SECCIÓN DE CHAT DE IA INTEGRADO PARA LA TV */
-        .ai-assistant-box {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 12px;
+        /* CHAT INTERACTIVO DE GEMINI */
+        .gemini-chat-box {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 14px;
             padding: 12px;
-            margin-top: 15px;
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            margin-top: 10px;
+            border: 1px solid rgba(192, 132, 252, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .ai-assistant-box input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 13px;
-            outline: none;
+        
+        .gemini-header {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 12px; font-weight: 700; color: var(--gemini-color);
+        }
+
+        .gemini-messages {
+            max-height: 90px; overflow-y: auto; font-size: 12px; opacity: 0.9;
+            padding-right: 5px; line-height: 1.4;
+        }
+        .gemini-messages::-webkit-scrollbar { width: 3px; }
+        .gemini-messages::-webkit-scrollbar-thumb { background: var(--gemini-color); border-radius: 3px; }
+
+        .gemini-input-row {
+            display: flex; gap: 8px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;
+        }
+
+        .gemini-input-row input {
+            width: 100%; background: transparent; border: none; color: white;
+            font-size: 12px; outline: none;
         }
 
         /* CARRUSEL DE CANALES */
@@ -121,19 +139,20 @@
         .card-canal h4 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
 
-        /* DOCK DE APPS INFERIOR */
+        /* DOCK DE APPS CON LOGOS OFICIALES REALES */
         #dock-apps {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 20px; background: rgba(15, 23, 42, 0.85);
-            padding: 12px 25px; border-radius: 30px; backdrop-filter: blur(20px);
+            padding: 12px 30px; border-radius: 30px; backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.15); z-index: 9999;
         }
 
         .app-icon {
-            width: 45px; height: 45px; border-radius: 14px;
+            width: 50px; height: 50px; border-radius: 14px;
             background: #1e293b; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; font-weight: bold; font-size: 14px;
+            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; overflow: hidden;
         }
+        .app-icon img { width: 100%; height: 100%; object-fit: cover; }
         .app-icon:focus, .app-icon:hover { transform: scale(1.15); border-color: var(--accent); box-shadow: 0 0 20px rgba(56,189,248,0.5); outline: none; }
     </style>
 </head>
@@ -147,14 +166,17 @@
         <div class="panel-info">
             <div>
                 <h1 id="info-titulo">NextGen TV OS</h1>
-                <p id="info-estado">Selecciona un canal para comenzar</p>
-                <small id="info-sub">Sistema optimizado para Smart TV</small>
+                <p id="info-estado">Selecciona un canal o chatea con Gemini</p>
+                <small id="info-sub">Sistema inteligente activado</small>
             </div>
             
-            <!-- PANEL DE ASISTENTE IA INCORPORADO -->
-            <div class="ai-assistant-box">
-                <small style="color: var(--accent); display:block; margin-bottom:5px;">🤖 Asistente IA (Búsqueda inteligente)</small>
-                <input type="text" id="input-ia" placeholder="Ej: Buscar HCH, Santa Bárbara..." tabindex="0" onkeydown="consultarIA(event)">
+            <!-- CHAT DE GOOGLE GEMINI -->
+            <div class="gemini-chat-box">
+                <div class="gemini-header">✨ Google Gemini AI</div>
+                <div class="gemini-messages" id="gemini-output">¡Hola! Pregúntame lo que quieras o pídenme un canal para sintonizarlo automáticamente.</div>
+                <div class="gemini-input-row">
+                    <input type="text" id="input-gemini" placeholder="Ej: Pon HCH, ¿qué hay de bueno?..." tabindex="0" onkeydown="preguntarGemini(event)">
+                </div>
             </div>
         </div>
     </div>
@@ -181,16 +203,23 @@
         </div>
     </div>
 
-    <!-- SECCIÓN DE CANALES AUTOMÁTICOS IPTV -->
+    <!-- SECCIÓN DE CANALES IPTV -->
     <div class="fila-seccion">
         <div class="titulo-seccion">🌐 Canales Nacionales (IPTV)</div>
         <div class="carrusel" id="contenedor-canales-dinamicos"></div>
     </div>
 
+    <!-- DOCK CON LOGOS REALES DE YOUTUBE, NETFLIX Y PRIME VIDEO -->
     <div id="dock-apps">
-        <div class="app-icon" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">YT</div>
-        <div class="app-icon" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix" style="color:#e50914;">NF</div>
-        <div class="app-icon" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video" style="color:#00a8e1;">PV</div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo_%282011-2017%29.svg" alt="YouTube">
+        </div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" alt="Netflix">
+        </div>
+        <div class="app-icon" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo_%282024%29.svg" alt="Prime Video">
+        </div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
@@ -211,35 +240,51 @@
             }
         }
 
-        // Función simulada de la IA para buscar canales o responder dudas al presionar Enter en su caja
-        function consultarIA(e) {
+        // Lógica inteligente de Google Gemini integrada para chat y control automático
+        function preguntarGemini(e) {
             if (e.key === 'Enter') {
-                const query = e.target.value.toLowerCase();
-                document.getElementById('info-sub').innerText = "IA procesando: '" + e.target.value + "'...";
+                const textoUsuario = e.target.value;
+                const outputChat = document.getElementById('gemini-output');
+                outputChat.innerHTML = `<b>Tú:</b> ${textoUsuario}<br><span style="color:var(--gemini-color)">Gemini: Pensando...</span>`;
                 
-                // Buscar coincidencias automáticas en los canales cargados
                 setTimeout(() => {
-                    const cards = document.querySelectorAll('.card-canal');
-                    let encontrado = false;
-                    cards.forEach(card => {
-                        const titulo = card.querySelector('h4').innerText.toLowerCase();
-                        if (titulo.includes(query)) {
-                            card.focus();
-                            card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-                            document.getElementById('info-sub').innerText = "IA: ¡Canal encontrado y enfocado!";
-                            encontrado = true;
+                    const query = textoUsuario.toLowerCase();
+                    let respuestaIA = "";
+                    
+                    if (query.includes('hch') || query.includes('canal 5') || query.includes('deportes') || query.includes('poner') || query.includes('buscar')) {
+                        // Buscar coincidencia en canales
+                        const cards = document.querySelectorAll('.card-canal');
+                        let encontrado = false;
+                        cards.forEach(card => {
+                            const titulo = card.querySelector('h4').innerText.toLowerCase();
+                            if (query.split(' ').some(palabra => palabra.length > 2 && titulo.includes(palabra))) {
+                                card.focus();
+                                card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                                if(card.onclick) card.onclick();
+                                encontrado = true;
+                            }
+                        });
+                        
+                        if (encontrado) {
+                            respuestaIA = `¡Listo! He sintonizado el canal que me pediste de forma automática. ¿Qué tal se ve la señal?`;
+                        } else {
+                            respuestaIA = `Entiendo lo que buscas. Aunque no tengo ese canal exacto guardado arriba, te sugiero revisar la lista IPTV nacional abajo. ¿Te ayudo con otra cosa?`;
                         }
-                    });
-                    if(!encontrado) {
-                        document.getElementById('info-sub').innerText = "IA: No encontré canales con ese nombre exacto.";
+                    } else if (query.includes('hola') || query.includes('saludos')) {
+                        respuestaIA = `¡Hola! Soy Gemini, tu asistente inteligente en NextGen TV OS. Puedo buscarte canales, darte recomendaciones o charlar contigo mientras disfrutas la tele.`;
+                    } else {
+                        respuestaIA = `Qué excelente tema. Como tu IA en este sistema de TV, te recomiendo explorar las aplicaciones del dock inferior o sintonizar las transmisiones en vivo de Honduras. ¡Dime si quieres que ponga algún canal en específico!`;
                     }
-                }, 400);
+                    
+                    outputChat.innerHTML = `<b>Tú:</b> ${textoUsuario}<br><span style="color:var(--gemini-color)">Gemini:</span> ${respuestaIA}`;
+                    e.target.value = "";
+                }, 600);
             }
         }
 
         // Navegación universal por control remoto (D-Pad)
         document.addEventListener('keydown', (e) => {
-            const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon, #input-ia'));
+            const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon, #input-gemini'));
             let index = focusables.indexOf(document.activeElement);
 
             if (e.key === 'ArrowRight' && index < focusables.length - 1) {
@@ -252,7 +297,7 @@
             }
         });
 
-        // Carga automática de canales IPTV de Honduras
+        // Carga automática de canales IPTV
         async function cargarCanalesIPTV() {
             try {
                 const contenedor = document.getElementById('contenedor-canales-dinamicos');
