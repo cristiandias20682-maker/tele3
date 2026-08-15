@@ -139,7 +139,7 @@
         .card-canal h4 { margin: 0; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-canal p { margin: 4px 0 0 0; font-size: 11px; color: #94a3b8; text-transform: uppercase; }
 
-        /* DOCK DE APPS CON LOGOS OFICIALES REALES */
+        /* DOCK DE APPS CON ICONOS VECTORIALES PERFECTOS */
         #dock-apps {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 20px; background: rgba(15, 23, 42, 0.85);
@@ -150,9 +150,9 @@
         .app-icon {
             width: 50px; height: 50px; border-radius: 14px;
             background: #1e293b; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent; overflow: hidden;
+            transition: all 0.2s ease; cursor: pointer; border: 2px solid transparent;
         }
-        .app-icon img { width: 100%; height: 100%; object-fit: cover; }
+        .app-icon svg { width: 28px; height: 28px; }
         .app-icon:focus, .app-icon:hover { transform: scale(1.15); border-color: var(--accent); box-shadow: 0 0 20px rgba(56,189,248,0.5); outline: none; }
     </style>
 </head>
@@ -209,16 +209,19 @@
         <div class="carrusel" id="contenedor-canales-dinamicos"></div>
     </div>
 
-    <!-- DOCK CON LOGOS REALES DE YOUTUBE, NETFLIX Y PRIME VIDEO -->
+    <!-- DOCK CON LOGOS VECTORIALES INCORPORADOS -->
     <div id="dock-apps">
+        <!-- YouTube -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo_%282011-2017%29.svg" alt="YouTube">
+            <svg viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </div>
+        <!-- Netflix -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg" alt="Netflix">
+            <svg viewBox="0 0 24 24" fill="#e50914"><path d="M5.503 4.027v15.946H8.25V13.88l7.535 6.093h2.712V4.027h-2.748v6.093L8.25 4.027H5.503z"/></svg>
         </div>
+        <!-- Prime Video -->
         <div class="app-icon" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo_%282024%29.svg" alt="Prime Video">
+            <svg viewBox="0 0 24 24" fill="#00a8e1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
         </div>
     </div>
 
@@ -240,7 +243,6 @@
             }
         }
 
-        // Lógica inteligente de Google Gemini integrada para chat y control automático
         function preguntarGemini(e) {
             if (e.key === 'Enter') {
                 const textoUsuario = e.target.value;
@@ -252,7 +254,6 @@
                     let respuestaIA = "";
                     
                     if (query.includes('hch') || query.includes('canal 5') || query.includes('deportes') || query.includes('poner') || query.includes('buscar')) {
-                        // Buscar coincidencia en canales
                         const cards = document.querySelectorAll('.card-canal');
                         let encontrado = false;
                         cards.forEach(card => {
@@ -266,23 +267,22 @@
                         });
                         
                         if (encontrado) {
-                            respuestaIA = `¡Listo! He sintonizado el canal que me pediste de forma automática. ¿Qué tal se ve la señal?`;
+                            respuestaIA = `¡Listo! He sintonizado el canal que me pediste de forma automática.`;
                         } else {
-                            respuestaIA = `Entiendo lo que buscas. Aunque no tengo ese canal exacto guardado arriba, te sugiero revisar la lista IPTV nacional abajo. ¿Te ayudo con otra cosa?`;
+                            respuestaIA = `No encontré ese canal exacto arriba, revisa la lista IPTV nacional abajo.`;
                         }
                     } else if (query.includes('hola') || query.includes('saludos')) {
-                        respuestaIA = `¡Hola! Soy Gemini, tu asistente inteligente en NextGen TV OS. Puedo buscarte canales, darte recomendaciones o charlar contigo mientras disfrutas la tele.`;
+                        respuestaIA = `¡Hola! Soy Gemini, tu asistente inteligente en NextGen TV OS.`;
                     } else {
-                        respuestaIA = `Qué excelente tema. Como tu IA en este sistema de TV, te recomiendo explorar las aplicaciones del dock inferior o sintonizar las transmisiones en vivo de Honduras. ¡Dime si quieres que ponga algún canal en específico!`;
+                        respuestaIA = `Como tu IA, te recomiendo explorar las aplicaciones del dock o sintonizar las transmisiones en vivo de Honduras.`;
                     }
                     
                     outputChat.innerHTML = `<b>Tú:</b> ${textoUsuario}<br><span style="color:var(--gemini-color)">Gemini:</span> ${respuestaIA}`;
                     e.target.value = "";
-                }, 600);
+                }, 400);
             }
         }
 
-        // Navegación universal por control remoto (D-Pad)
         document.addEventListener('keydown', (e) => {
             const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon, #input-gemini'));
             let index = focusables.indexOf(document.activeElement);
@@ -297,7 +297,6 @@
             }
         });
 
-        // Carga automática de canales IPTV
         async function cargarCanalesIPTV() {
             try {
                 const contenedor = document.getElementById('contenedor-canales-dinamicos');
