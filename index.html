@@ -6,104 +6,111 @@
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
-            --accent: #6366f1;
             --bg: #050505;
-            --card: rgba(255,255,255,0.05);
-            --focus: rgba(99, 102, 241, 0.8);
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent: #00ff9d;
         }
 
         body { 
-            background: var(--bg); color: white; font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif;
             margin: 0; padding: 40px; overflow-x: hidden;
         }
 
-        /* Reproductor con diseño de cine */
-        #contenedor-reproductor {
-            width: 100%; height: 50vh; border-radius: 30px;
-            overflow: hidden; border: 4px solid #1a1a1a;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 40px;
+        /* DISTRIBUCIÓN SUPERIOR: REPRODUCTOR + PANEL INFO */
+        .top-section {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
         }
 
-        /* Sistema de Filas para TV */
-        .fila-seccion { margin-bottom: 50px; }
-        .titulo-fila { font-size: 24px; font-weight: 700; margin-bottom: 20px; padding-left: 10px; }
+        #contenedor-reproductor {
+            width: 100%; aspect-ratio: 16/9; border-radius: 20px;
+            overflow: hidden; border: 2px solid #222;
+        }
+
+        .panel-info {
+            background: var(--glass); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* CARRUSEL DE CANALES */
+        .fila-seccion { margin-bottom: 40px; }
+        .titulo-seccion { font-size: 20px; margin-bottom: 20px; opacity: 0.8; }
         
         .carrusel {
-            display: flex; gap: 20px; overflow-x: auto;
-            padding: 20px 10px; scroll-behavior: smooth;
+            display: flex; gap: 20px; overflow-x: auto; padding: 10px;
         }
         .carrusel::-webkit-scrollbar { display: none; }
 
-        /* Tarjetas estilo App */
         .card-canal {
-            min-width: 280px; height: 160px;
-            background: var(--card); border-radius: 20px;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            padding: 20px; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border: 2px solid transparent;
+            min-width: 250px; height: 140px; background: var(--glass);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            border: 2px solid transparent; transition: 0.3s;
         }
 
+        /* ESTADO DE FOCO */
         .card-canal:focus {
             transform: scale(1.1); border-color: var(--accent);
-            box-shadow: 0 0 30px var(--focus); outline: none;
-            background: rgba(99, 102, 241, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3); outline: none;
         }
 
-        .card-canal h3 { margin: 0; font-size: 18px; }
-        .card-canal p { margin: 5px 0 0; opacity: 0.7; font-size: 12px; }
-
-        /* Dock flotante minimalista */
-        #dock {
+        /* DOCK DE APPS INFERIOR */
+        #dock-apps {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
-            padding: 15px 30px; border-radius: 50px; display: flex; gap: 20px;
+            display: flex; gap: 20px; background: var(--glass);
+            padding: 15px 40px; border-radius: 50px; backdrop-filter: blur(20px);
         }
+
+        .app-icon {
+            width: 50px; height: 50px; border-radius: 10px;
+            background: #222; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .app-icon:focus { transform: scale(1.2); border: 2px solid white; outline: none; }
     </style>
 </head>
 <body>
 
-    <div id="contenedor-reproductor">
-        <video id="reproductor-tv" class="video-js vjs-big-play-centered" controls></video>
-    </div>
-
-    <div class="fila-seccion">
-        <div class="titulo-fila">Canales Nacionales</div>
-        <div class="carrusel" id="lista-canales">
-            <!-- Los canales se inyectarán aquí -->
+    <div class="top-section">
+        <div id="contenedor-reproductor">
+            <video id="reproductor-tv" class="video-js" controls></video>
+        </div>
+        <div class="panel-info">
+            <h1>Canal 5 (Oficial)</h1>
+            <p>EN VIVO: Honduras vs. Costa Rica</p>
+            <small>Transmisión en directo desde el estadio...</small>
         </div>
     </div>
 
-    <div id="dock">
-        <div class="app-icono">📺 LIVE</div>
-        <div class="app-icono">🎞️ VOD</div>
-        <div class="app-icono">⚙️ AJUSTES</div>
+    <div class="fila-seccion">
+        <div class="titulo-seccion">Canales</div>
+        <div class="carrusel" id="lista-canales">
+            <!-- Tarjetas de Canales -->
+            <div class="card-canal" tabindex="0">Deportes TVC</div>
+            <div class="card-canal" tabindex="0">Canal 5</div>
+            <div class="card-canal" tabindex="0">Telecadena</div>
+        </div>
+    </div>
+
+    <div id="dock-apps">
+        <div class="app-icon" tabindex="0">YT</div>
+        <div class="app-icon" tabindex="0">NF</div>
+        <div class="app-icon" tabindex="0">PV</div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
     <script>
-        const player = videojs('reproductor-tv', { fluid: true });
+        videojs('reproductor-tv', { fluid: true });
         
-        // Lógica de navegación con teclado/control remoto
+        // Navegación inteligente
         document.addEventListener('keydown', (e) => {
-            const focusable = document.querySelectorAll('.card-canal');
-            let index = Array.from(focusable).indexOf(document.activeElement);
-
-            if(e.key === 'ArrowRight' && index < focusable.length -1) focusable[index + 1].focus();
-            if(e.key === 'ArrowLeft' && index > 0) focusable[index - 1].focus();
+            const allFocusable = document.querySelectorAll('[tabindex="0"]');
+            let index = Array.from(allFocusable).indexOf(document.activeElement);
+            
+            if(e.key === 'ArrowRight' && index < allFocusable.length - 1) allFocusable[index + 1].focus();
+            if(e.key === 'ArrowLeft' && index > 0) allFocusable[index - 1].focus();
         });
-
-        // Simulación de carga (puedes integrar tu fetch aquí)
-        const lista = document.getElementById('lista-canales');
-        for(let i=0; i<10; i++) {
-            const card = document.createElement('div');
-            card.className = 'card-canal';
-            card.tabIndex = 0;
-            card.innerHTML = `<h3>Canal ${i+1}</h3><p>Señal HD Estable</p>`;
-            card.onclick = () => alert('Reproduciendo...');
-            lista.appendChild(card);
-        }
     </script>
 </body>
 </html>
