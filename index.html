@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextGen TV OS</title>
+    <title>NextGen TV OS + AI Assistant</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
         :root {
-            --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-hover: rgba(56, 189, 248, 0.15);
+            --bg-gradiente: radial-gradient(circle at 50% 20%, #0f172a 0%, #020617 100%);
+            --glass: rgba(15, 23, 42, 0.65);
+            --glass-hover: rgba(56, 189, 248, 0.2);
             --accent: #38bdf8;
             --active-green: #00ff9d;
         }
 
         body { 
-            background: var(--bg); color: white; font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0; padding: 40px; overflow-x: hidden;
+            background: var(--bg-gradiente);
+            color: white; 
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0; 
+            padding: 40px; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+
+        /* EFECTO DE LUZ AMBIENTAL DE FONDO */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%; left: -20%; width: 70vw; height: 70vh;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
         /* DISTRIBUCIÓN SUPERIOR: REPRODUCTOR + PANEL INFO */
@@ -29,26 +45,44 @@
 
         #contenedor-reproductor {
             width: 100%; aspect-ratio: 16/9; border-radius: 20px;
-            overflow: hidden; border: 2px solid rgba(255,255,255,0.1);
+            overflow: hidden; border: 2px solid rgba(255,255,255,0.12);
             background: #000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.9);
         }
 
         .video-js { width: 100%; height: 100%; }
 
         .panel-info {
-            background: var(--glass); backdrop-filter: blur(20px);
-            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.08);
-            display: flex; flex-direction: column; justify-content: center;
+            background: var(--glass); backdrop-filter: blur(25px);
+            border-radius: 20px; padding: 30px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .panel-info h1 { margin: 0 0 10px 0; font-size: 24px; color: var(--accent); }
-        .panel-info p { margin: 0 0 5px 0; font-size: 16px; font-weight: 600; }
-        .panel-info small { opacity: 0.6; font-size: 13px; }
+        .panel-info h1 { margin: 0 0 10px 0; font-size: 22px; color: var(--accent); }
+        .panel-info p { margin: 0 0 5px 0; font-size: 15px; font-weight: 600; }
+        .panel-info small { opacity: 0.6; font-size: 12px; }
+
+        /* SECCIÓN DE CHAT DE IA INTEGRADO PARA LA TV */
+        .ai-assistant-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        .ai-assistant-box input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 13px;
+            outline: none;
+        }
 
         /* CARRUSEL DE CANALES */
         .fila-seccion { margin-bottom: 35px; }
-        .titulo-seccion { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; color: #cbd5e1; }
+        .titulo-seccion { font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; color: #cbd5e1; }
         
         .carrusel {
             display: flex; gap: 20px; overflow-x: auto; padding: 10px 5px; scroll-behavior: smooth;
@@ -60,9 +94,9 @@
             border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end;
             border: 2px solid rgba(255,255,255,0.08); transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
             cursor: pointer; position: relative; box-sizing: border-box; flex-shrink: 0;
+            backdrop-filter: blur(10px);
         }
 
-        /* ESTADO DE FOCO PARA CONTROL REMOTO (D-PAD) */
         .card-canal:focus, .card-canal:hover {
             transform: scale(1.08) translateY(-4px);
             border-color: var(--accent);
@@ -74,7 +108,7 @@
 
         .card-canal.activo {
             border-color: var(--active-green) !important;
-            background: rgba(0, 255, 157, 0.15) !important;
+            background: rgba(0, 255, 157, 0.2) !important;
             box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 25px rgba(0, 255, 157, 0.4);
         }
 
@@ -109,18 +143,26 @@
         <div id="contenedor-reproductor">
             <video id="reproductor-tv" class="video-js vjs-big-play-centered" controls preload="auto"></video>
         </div>
+        
         <div class="panel-info">
-            <h1 id="info-titulo">NextGen TV OS</h1>
-            <p id="info-estado">Selecciona un canal para comenzar</p>
-            <small id="info-sub">Transmisión en directo</small>
+            <div>
+                <h1 id="info-titulo">NextGen TV OS</h1>
+                <p id="info-estado">Selecciona un canal para comenzar</p>
+                <small id="info-sub">Sistema optimizado para Smart TV</small>
+            </div>
+            
+            <!-- PANEL DE ASISTENTE IA INCORPORADO -->
+            <div class="ai-assistant-box">
+                <small style="color: var(--accent); display:block; margin-bottom:5px;">🤖 Asistente IA (Búsqueda inteligente)</small>
+                <input type="text" id="input-ia" placeholder="Ej: Buscar HCH, Santa Bárbara..." tabindex="0" onkeydown="consultarIA(event)">
+            </div>
         </div>
     </div>
 
-    <!-- SECCIÓN DE CANALES LOCALES / DESTACADOS (HCH, Santa Bárbara, etc.) -->
+    <!-- SECCIÓN DE CANALES LOCALES -->
     <div class="fila-seccion">
         <div class="titulo-seccion">🌟 HCH y Canales Destacados</div>
         <div class="carrusel" id="lista-destacados">
-            <!-- Puedes añadir canales fijos o locales aquí -->
             <div class="card-canal" tabindex="0" onclick="reproducirCanal('HCH Honduras', 'https://turadio.live/8014/stream', 'Canal HCH en Directo')">
                 <span class="badge" style="background:#eab308;">DESTACADO</span>
                 <p>Nacional</p>
@@ -139,12 +181,10 @@
         </div>
     </div>
 
-    <!-- SECCIÓN DE CANALES AUTOMÁTICOS (IPTV HONDURAS) -->
+    <!-- SECCIÓN DE CANALES AUTOMÁTICOS IPTV -->
     <div class="fila-seccion">
         <div class="titulo-seccion">🌐 Canales Nacionales (IPTV)</div>
-        <div class="carrusel" id="contenedor-canales-dinamicos">
-            <!-- Se cargan dinámicamente -->
-        </div>
+        <div class="carrusel" id="contenedor-canales-dinamicos"></div>
     </div>
 
     <div id="dock-apps">
@@ -171,9 +211,35 @@
             }
         }
 
+        // Función simulada de la IA para buscar canales o responder dudas al presionar Enter en su caja
+        function consultarIA(e) {
+            if (e.key === 'Enter') {
+                const query = e.target.value.toLowerCase();
+                document.getElementById('info-sub').innerText = "IA procesando: '" + e.target.value + "'...";
+                
+                // Buscar coincidencias automáticas en los canales cargados
+                setTimeout(() => {
+                    const cards = document.querySelectorAll('.card-canal');
+                    let encontrado = false;
+                    cards.forEach(card => {
+                        const titulo = card.querySelector('h4').innerText.toLowerCase();
+                        if (titulo.includes(query)) {
+                            card.focus();
+                            card.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                            document.getElementById('info-sub').innerText = "IA: ¡Canal encontrado y enfocado!";
+                            encontrado = true;
+                        }
+                    });
+                    if(!encontrado) {
+                        document.getElementById('info-sub').innerText = "IA: No encontré canales con ese nombre exacto.";
+                    }
+                }, 400);
+            }
+        }
+
         // Navegación universal por control remoto (D-Pad)
         document.addEventListener('keydown', (e) => {
-            const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon'));
+            const focusables = Array.from(document.querySelectorAll('.card-canal, .app-icon, #input-ia'));
             let index = focusables.indexOf(document.activeElement);
 
             if (e.key === 'ArrowRight' && index < focusables.length - 1) {
