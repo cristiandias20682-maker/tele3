@@ -2,79 +2,415 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gaming Dashboard J7</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Liquid TV OS</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
-        /* Estilos base futuristas */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
-        body { background-color: #050508; color: #00ffcc; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        
-        /* Contenedor principal con efecto Neón RGB animado */
-        .dashboard {
-            width: 95vw; height: 90vh; background: rgba(10, 10, 15, 0.9);
-            border: 3px solid #ff0055; border-radius: 15px;
-            box-shadow: 0 0 20px #ff0055, inset 0 0 15px rgba(255, 0, 85, 0.3);
-            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 20px; padding: 20px;
-            animation: neonGlow 4s infinite alternate;
+        :root {
+            --bg-gradiente: radial-gradient(circle at 50% 20%, #0c162c 0%, #03060a 100%);
+            --liquid-bg: linear-gradient(135deg, rgba(30, 42, 68, 0.5) 0%, rgba(12, 18, 30, 0.8) 100%);
+            --liquid-bg-hover: linear-gradient(135deg, rgba(45, 68, 107, 0.75) 0%, rgba(18, 28, 48, 0.95) 100%);
+            --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            --neon-cyan: 0 0 25px rgba(0, 191, 255, 0.5);
+            --neon-verde: 0 0 30px rgba(0, 255, 157, 0.7);
+            --text-main: #ffffff;
+            --text-sub: #a5f3fc;
         }
 
-        /* Bloques individuales del panel */
-        .widget {
-            background: rgba(20, 20, 30, 0.6); border: 1px solid #00ffcc; border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
-            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px;
+        body {
+            background: var(--bg-gradiente);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-        
-        .widget-title { font-size: 14px; text-transform: uppercase; color: #ffbf00; letter-spacing: 2px; margin-bottom: 5px; }
-        .huge-text { font-size: 50px; font-weight: bold; text-shadow: 0 0 10px #00ffcc; color: #00ffcc; }
-        .data-text { font-size: 32px; color: #00ffcc; font-weight: bold; }
 
-        /* Animación de luces neón */
-        @keyframes neonGlow {
-            0% { border-color: #ff0055; box-shadow: 0 0 15px #ff0055; }
-            50% { border-color: #00ffcc; box-shadow: 0 0 15px #00ffcc; }
-            100% { border-color: #ffbf00; box-shadow: 0 0 15px #ffbf00; }
+        /* LAYOUT PRINCIPAL OPTIMIZADO PARA SALAS / TV */
+        .contenido-principal {
+            padding: 30px 50px;
+            box-sizing: border-box;
+            width: 100%;
         }
+
+        #header-sistema {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 15px;
+        }
+
+        .titulo-marca {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ffffff, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+
+        .reproductor-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        #contenedor-reproductor {
+            width: 100%;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+            aspect-ratio: 16/9;
+        }
+
+        .video-js {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* PANEL LATERAL DE INFORMACIÓN EN VIVO */
+        .panel-info-tv {
+            background: var(--liquid-bg);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .panel-info-tv h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .panel-info-tv p {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        /* SECCIONES Y FILAS DE CANALES */
+        .seccion-interfaz {
+            margin-bottom: 35px;
+            width: 100%;
+        }
+
+        .titulo-fila {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid-carrusel-infinito {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 5px;
+            width: 100%;
+        }
+
+        .grid-carrusel-infinito::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* TARJETAS DE CANAL ESTILO TARJETAS DE STREAMING MODERNAS */
+        .card-canal {
+            background: var(--liquid-bg);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: left;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 110px;
+            width: 230px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            box-shadow: var(--glass-shadow);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-sizing: border-box;
+        }
+
+        .card-canal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+        }
+
+        /* EFECTO DE FOCO ESPECÍFICO PARA CONTROL REMOTO (TV) */
+        .card-canal:hover, .card-canal:focus {
+            background: var(--liquid-bg-hover);
+            transform: scale(1.08) translateY(-4px);
+            border-color: #38bdf8;
+            box-shadow: var(--glass-shadow), var(--neon-cyan);
+            outline: none;
+            z-index: 10;
+        }
+
+        .card-canal.activo {
+            border-color: #00ff9d !important;
+            background: linear-gradient(135deg, rgba(13, 63, 44, 0.85) 0%, rgba(6, 35, 25, 0.95) 100%) !important;
+            box-shadow: var(--glass-shadow), var(--neon-verde);
+        }
+
+        .canal-meta {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .canal-titulo-texto {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tag-live-premium {
+            position: absolute;
+            top: 12px; right: 14px;
+            background: linear-gradient(180deg, #ef4444 0%, #b91c1c 100%);
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* DOCK DE APLICACIONES EXTERNAS INFERIOR */
+        #dock-apps {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 25px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            z-index: 9999;
+        }
+
+        .app-icono {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .app-icono:hover, .app-icono:focus {
+            transform: scale(1.15);
+            border-color: #38bdf8;
+            box-shadow: var(--neon-cyan);
+            outline: none;
+        }
+
+        .espacio-final { height: 120px; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <!-- BLOQUE 1: RELOJ EN TIEMPO REAL -->
-        <div class="widget">
-            <div class="widget-title">🕒 TIME SYSTEM</div>
-            <div id="clock" class="huge-text">00:00:00</div>
+    <div class="contenido-principal">
+        <div id="header-sistema">
+            <h1 class="titulo-marca">IPTV Smart Experience</h1>
+            <div style="font-size: 14px; color: var(--text-sub); font-weight: 600;" id="reloj-sistema">En Vivo</div>
         </div>
 
-        <!-- BLOQUE 2: CLIMA / TIEMPO -->
-        <div class="widget">
-            <div class="widget-title">🌍 WEATHER CORPS</div>
-            <!-- Puedes reemplazar este texto por un Widget HTML real de páginas como ElTiempo.es -->
-            <div class="data-text" id="weather">24°C / DESPEJADO</div>
+        <div class="reproductor-layout">
+            <div id="contenedor-reproductor">
+                <video id="reproductor-tv" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"></video>
+            </div>
+            <div class="panel-info-tv">
+                <h3>Reproduciendo Ahora</h3>
+                <p id="info-canal-actual">Selecciona un canal para comenzar</p>
+            </div>
         </div>
 
-        <!-- BLOQUE 3: TEMPERATURA HABITACIÓN -->
-        <div class="widget">
-            <div class="widget-title">🔥 ROOM CORE TEMP</div>
-            <div class="data-text" style="color: #ff0055;">21.5 °C</div>
+        <div class="seccion-interfaz" id="sec-exclusivas">
+            <div class="titulo-fila">🏆 Señales Exclusivas y Destacadas</div>
+            <div class="grid-carrusel-infinito">
+                <div class="card-canal" tabindex="0" onclick="window.open('https://www.televicentro.com', '_blank')">
+                    <span class="tag-live-premium">WEB</span>
+                    <div class="canal-meta">Televicentro</div>
+                    <div class="canal-titulo-texto">CANAL 5 (Oficial)</div>
+                </div>
+                <div class="card-canal" tabindex="0" onclick="window.open('https://www.deportestvc.com', '_blank')">
+                    <span class="tag-live-premium">WEB</span>
+                    <div class="canal-meta">Deportes TVC</div>
+                    <div class="canal-titulo-texto">DEPORTES TVC</div>
+                </div>
+            </div>
         </div>
 
-        <!-- BLOQUE 4: HUMEDAD O ESTADO -->
-        <div class="widget">
-            <div class="widget-title">💧 AIR HUMIDITY</div>
-            <div class="data-text" style="color: #ffbf00;">45 %</div>
+        <div class="seccion-interfaz" id="sec-nacionales">
+            <div class="titulo-fila">🌐 Canales Nacionales</div>
+            <div class="grid-carrusel-infinito" id="contenedor-canales-dinamicos">
+                <!-- Se cargan dinámicamente -->
+            </div>
         </div>
     </div>
 
+    <div id="dock-apps">
+        <div class="app-icono" style="background: #ff0000;" tabindex="0" onclick="window.open('https://www.youtube.com', '_blank')" title="YouTube">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="white"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93 .502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <div class="app-icono" style="background: #e50914;" tabindex="0" onclick="window.open('https://www.netflix.com', '_blank')" title="Netflix"><span style="font-weight:900;color:white; font-size:18px;">N</span></div>
+        <div class="app-icono" style="background: #00a8e1; font-size:12px; font-weight:bold; color:white;" tabindex="0" onclick="window.open('https://www.primevideo.com', '_blank')" title="Prime Video">PV</div>
+    </div>
+
+    <div class="espacio-final"></div>
+
+    <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
     <script>
-        // Función para actualizar el reloj cada segundo
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString();
-            document.getElementById('clock').textContent = timeString;
+        const player = videojs('reproductor-tv', { fluid: true });
+        const URL_M3U = 'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/hn.m3u';
+
+        const canalesABorrar = [
+            "alfa & omega vision", "aviva tv", "campus tv", "canal 5 el líder", 
+            "canal 7 talanga visión", "canal 32 sto", "cholusat sur 36", 
+            "deportes tvc", "cva tv", "edn tv", "girasol tv", "globo tv", 
+            "inmaculada tv", "la 98.1 tv", "litoral atlántico", "ltv", "maya tv"
+        ];
+
+        // CONTROL DE NAVEGACIÓN TOTAL POR D-PAD (CONTROL REMOTO DE TV)
+        document.addEventListener('keydown', function(e) {
+            const elementosEnfocables = Array.from(document.querySelectorAll('.card-canal, .app-icono'));
+            let indiceActual = elementosEnfocables.indexOf(document.activeElement);
+
+            if (e.key === 'ArrowRight') {
+                if (indiceActual < elementosEnfocables.length - 1 && indiceActual !== -1) {
+                    elementosEnfocables[indiceActual + 1].focus();
+                    elementosEnfocables[indiceActual + 1].scrollIntoView({ behavior: 'smooth', inline: 'nearest' });
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (indiceActual > 0) {
+                    elementosEnfocables[indiceActual - 1].focus();
+                    elementosEnfocables[indiceActual - 1].scrollIntoView({ behavior: 'smooth', inline: 'nearest' });
+                }
+            } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                // Permite saltar de manera fluida entre filas con las flechas verticales del control remoto
+                if (indiceActual === -1 && elementosEnfocables.length > 0) {
+                    elementosEnfocables[0].focus();
+                }
+            }
+        });
+
+        async function cargarCanales() {
+            try {
+                const contenedor = document.getElementById('contenedor-canales-dinamicos');
+                const respuesta = await fetch(URL_M3U);
+                const texto = await respuesta.text();
+                const lineas = texto.split('\n');
+                const fragmento = document.createDocumentFragment();
+                let nombreCanal = '';
+
+                for (let i = 0; i < lineas.length; i++) {
+                    const linea = lineas[i].trim();
+                    if (!linea) continue;
+
+                    if (linea.startsWith('#EXTINF:')) {
+                        const partes = linea.split(',');
+                        nombreCanal = (partes[1] || 'Canal').trim();
+                    } else if (linea.startsWith('http') && nombreCanal) {
+                        const nombreMin = nombreCanal.toLowerCase();
+                        let deberiaBorrar = false;
+                        
+                        for (let j = 0; j < canalesABorrar.length; j++) {
+                            if (nombreMin.indexOf(canalesABorrar[j]) !== -1) {
+                                deberiaBorrar = true;
+                                break;
+                            }
+                        }
+
+                        if (!deberiaBorrar) {
+                            const card = document.createElement('div');
+                            card.className = 'card-canal';
+                            card.tabIndex = 0;
+                            
+                            const tagLive = document.createElement('span');
+                            tagLive.className = 'tag-live-premium';
+                            tagLive.innerText = 'LIVE';
+                            card.appendChild(tagLive);
+
+                            const metaTag = document.createElement('div');
+                            metaTag.className = 'canal-meta';
+                            metaTag.innerText = "IPTV STREAM";
+                            card.appendChild(metaTag);
+
+                            const tituloTexto = document.createElement('div');
+                            tituloTexto.className = 'canal-titulo-texto';
+                            tituloTexto.innerText = nombreCanal;
+                            card.appendChild(tituloTexto);
+                            
+                            const urlActual = linea;
+                            const nombreSeleccionado = nombreCanal;
+                            
+                            const ejecutarSeleccion = function() {
+                                player.src({ type: 'application/x-mpegURL', src: urlActual });
+                                player.play();
+                                document.getElementById('info-canal-actual').innerText = nombreSeleccionado;
+                                
+                                const todas = contenedor.getElementsByClassName('card-canal');
+                                for (let j = 0; j < todas.length; j++) todas[j].classList.remove('activo');
+                                card.classList.add('activo');
+                            };
+
+                            card.onclick = ejecutarSeleccion;
+                            card.onkeydown = function(e) { if(e.key === 'Enter') ejecutarSeleccion(); };
+                            
+                            fragmento.appendChild(card);
+                        }
+                        nombreCanal = '';
+                    }
+                }
+                contenedor.innerHTML = '';
+                contenedor.appendChild(fragmento);
+            } catch (error) { console.error("Error al cargar lista IPTV:", error); }
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+
+        window.addEventListener('load', cargarCanales, { passive: true });
     </script>
 </body>
 </html>
